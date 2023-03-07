@@ -41,7 +41,9 @@ public class Project3a_seandavies {
         System.out.println(lOrR);
         System.out.println(rotate);
         playerInput(p1,board1,b1);
+        System.out.println("Right: " + right + " Left: " + left);
         computerMove(c1,board1,b1);
+        System.out.println("Right: " + right + " Left: " + left);
         display(line1,line2);
         humanTurnDisplay(p1);
         playerChoices();
@@ -88,11 +90,11 @@ public class Project3a_seandavies {
                 computerPosition = -1;
                 deadMove = 0;
                 right++;
-                addToLines(line1,line2,right,left,board1.boardDominoes.getLast());
+                addToLines(line1,line2,right,left,board1.boardDominoes.getLast(),'r');
             }
             else {
                 left++;
-                addToLines(line1,line2,right,left,board1.boardDominoes.getFirst());
+                addToLines(line1,line2,right,left,board1.boardDominoes.getFirst(),'l');
             }
         }
     }
@@ -111,6 +113,16 @@ public class Project3a_seandavies {
     }
 
     static void playerInput(Player p1, Board board1, Boneyard b1){
+        if (left != 0 || right != 0){
+            if (lOrR.matches("r")){
+                right++;
+                System.out.println("Right increased to: " + right);
+            }
+            else if (lOrR.matches("l")){
+                left++;
+                System.out.println("Left increased to: " + left);
+            }
+        }
         switch (humanChoice) {
             case "p" -> {
                 System.out.println("Player chose to play");
@@ -118,26 +130,18 @@ public class Project3a_seandavies {
                     p1.flip(dominoNumber);
                     board1.checkMove(p1.play(dominoNumber), lOrR);
                     if (lOrR.matches("l")){
-                        addToLines(line1,line2,right,left,board1.boardDominoes.getFirst());
+                        addToLines(line1,line2,right,left,board1.boardDominoes.getFirst(),'l');
                     }
                     else if (lOrR.matches("r")){
-                        addToLines(line1,line2,right,left,board1.boardDominoes.getLast());
+                        addToLines(line1,line2,right,left,board1.boardDominoes.getLast(),'r');
                     }
                 } else if (rotate.matches("n")) {
                     board1.checkMove(p1.play(dominoNumber), lOrR);
                     if (lOrR.matches("l")){
-                        addToLines(line1,line2,right,left,board1.boardDominoes.getFirst());
+                        addToLines(line1,line2,right,left,board1.boardDominoes.getFirst(),'l');
                     }
                     else if (lOrR.matches("r")){
-                        addToLines(line1,line2,right,left,board1.boardDominoes.getLast());
-                    }
-                }
-                if (left != 0 || right != 0){
-                    if (lOrR.matches("r")){
-                        right++;
-                    }
-                    else if (lOrR.matches("l")){
-                        left++;
+                        addToLines(line1,line2,right,left,board1.boardDominoes.getLast(),'r');
                     }
                 }
             }
@@ -163,17 +167,18 @@ public class Project3a_seandavies {
         }
     }
 
-    static void addToLines(LinkedList line1, LinkedList line2, int right, int left, LinkedList domino){
-        if (right%2 != 0){
+    static void addToLines(LinkedList line1, LinkedList line2, int right, int left, LinkedList domino, char lOrR){
+        System.out.println("Right: " + right + " Left: " + left);
+        if (right%2 != 0 && lOrR == 'r'){
             line2.addLast(domino);
         }
-        else if (right%2 == 0){
+        else if (right%2 == 0 && lOrR == 'r'){
             line1.addLast(domino);
         }
-        else if (left%2 != 0){
+        else if (left%2 != 0 && lOrR == 'l'){
             line2.addFirst(domino);
         }
-        else if (left%2 == 0){
+        else if (left%2 == 0 && lOrR == 'l'){
             line1.addFirst(domino);
         }
     }
@@ -189,10 +194,21 @@ public class Project3a_seandavies {
         {
             sb2.append(object.toString());
         }
+        String indent = "   ";
         String temp1 = sb1.toString().replaceAll(","," ");
         String temp2 = sb2.toString().replaceAll(","," ");
-        System.out.println(temp1);
-        System.out.println("   " + temp2);
+        if (line1.size() > line2.size()) {
+            System.out.println(temp1);
+            System.out.println(indent + temp2);
+        }
+        else if (line1.size() == line2.size()){
+            System.out.println(indent + temp1);
+            System.out.println(temp2);
+        }
+        else {
+            System.out.println(indent + temp1);
+            System.out.println(temp2);
+        }
     }
 
     static void humanTurnDisplay(Player p1){
