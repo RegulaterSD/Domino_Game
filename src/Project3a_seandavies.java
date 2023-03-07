@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Project3a_seandavies {
     static LinkedList<LinkedList> boardStart = new LinkedList<>();
@@ -9,9 +10,9 @@ public class Project3a_seandavies {
     static boolean computerMoved = true;
     static int computerPosition;
     static int deadMove = 0;
-    static char humanChoice;
-    static char lOrR;
-    static char rotate;
+    static String humanChoice;
+    static String lOrR;
+    static String rotate;
     static int domino;
 
     public static void main(String[] args) {
@@ -26,6 +27,14 @@ public class Project3a_seandavies {
         Board board1 = new Board(boardStart);
 
         originalDisplay(c1,b1);
+        display(board1);
+        humanTurnDisplay(p1);
+        playerChoices();
+        System.out.println(humanChoice);
+        System.out.println(domino);
+        System.out.println(lOrR);
+        System.out.println(rotate);
+        board1.checkMove(p1.play(domino), lOrR);
         display(board1);
         humanTurnDisplay(p1);
 
@@ -60,20 +69,27 @@ public class Project3a_seandavies {
             }
         }
         else {
-            if (!board1.checkMove(c1.play(computerPosition), 'l')) {
+            if (!board1.checkMove(c1.play(computerPosition), "l")) {
                 System.out.println("False Moves: " + board1.falseMove);
                 c1.computerDominoes.add(computerPosition, board1.falseMove.get(0));
                 board1.falseMove.clear();
                 System.out.println("Moved right");
-                board1.checkMove(c1.play(computerPosition), 'r');
+                board1.checkMove(c1.play(computerPosition), "r");
                 computerPosition = -1;
                 deadMove = 0;
             }
         }
     }
 
-    static void playerMove(){
-
+    static void playerChoices(){
+        Scanner sc = new Scanner(System.in);
+        humanChoice = sc.nextLine();
+        System.out.println("Which domino?");
+        domino = Integer.parseInt(sc.nextLine());
+        System.out.println("Left or Right? (l/r)");
+        lOrR = sc.nextLine();
+        System.out.println("Rotate first? (y/n)");
+        rotate = sc.nextLine();
     }
 
     static void display(Board board1){

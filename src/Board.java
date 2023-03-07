@@ -9,17 +9,17 @@ public class Board {
         this.falseMove = (LinkedList<LinkedList>) dominoes.clone();
     }
 
-    void add(LinkedList domino, char leftOrRight){
-        if (leftOrRight == 'l' || leftOrRight == 'L'){
+    void add(LinkedList domino, String leftOrRight){
+        if (leftOrRight.matches("l") || leftOrRight.matches("L")){
             this.boardDominoes.addFirst(domino);
         }
-        else if (leftOrRight == 'r' || leftOrRight == 'R'){
+        else if (leftOrRight.matches("r") || leftOrRight.matches("R")){
             this.boardDominoes.addLast(domino);
         }
     }
 
-    boolean checkMove(LinkedList domino, char leftOrRight){
-        if (leftOrRight == 'l' || leftOrRight == 'L'){
+    boolean checkMove(LinkedList domino, String leftOrRight){
+        if (leftOrRight.matches("l") || leftOrRight.matches("L")){
             if (total() == 0){
                 add(domino,leftOrRight);
                 return true;
@@ -39,7 +39,7 @@ public class Board {
                 return false;
             }
         }
-        else if (leftOrRight == 'r' || leftOrRight == 'R'){
+        else if (leftOrRight.matches("r") || leftOrRight.matches("R")){
             if (total() == 0){
                 add(domino,leftOrRight);
                 return true;
