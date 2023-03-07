@@ -105,13 +105,19 @@ public class Project3a_seandavies {
                 break;
             case "d":
                 System.out.println("Player chose to draw from boneyard");
-                if (b1.boneyardDominoes.size() != 0) {
-                    System.out.println("Drawing from BoneYard");
-                    p1.draw(b1.getBoneyard());
+                if (board1.boardDominoes.size() != 0) {
+                    if (!p1.playerMove(board1.boardDominoes.getFirst(), board1.boardDominoes.getLast())) {
+                        if (b1.boneyardDominoes.size() != 0) {
+                            System.out.println("Drawing from BoneYard");
+                            p1.draw(b1.getBoneyard());
+                        } else {
+                            System.out.println("DeadMove");
+                            deadMove++;
+                        }
+                    }
                 }
                 else {
-                    System.out.println("DeadMove");
-                    deadMove++;
+                    System.out.println("Cannot draw, you have a valid move possible");
                 }
                 break;
             case "q":

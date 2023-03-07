@@ -51,4 +51,48 @@ public class Player {
         return total;
     }
 
+    boolean playerMove(LinkedList boardFirst, LinkedList boardLast){
+        int position = -1;
+        if (boardFirst == null){
+            return true;
+        }
+        for (int i = 0; i < this.playerDominoes.size(); i++) {
+            if (canPlayerMove(boardFirst,boardLast,this.playerDominoes.get(i),i)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean canPlayerMove(LinkedList boardFirst, LinkedList boardLast, LinkedList domino, int position){
+        for (int i = 0; i < this.playerDominoes.size(); i++){
+            if (domino.getFirst().equals(boardFirst.getFirst())){
+                flip(position);
+                return true;
+            }
+            else if (domino.getLast().equals(boardFirst.getFirst())){
+                return true;
+            }
+            else if (domino.getFirst().equals(boardLast.getLast())){
+                return true;
+            }
+            else if (domino.getLast().equals(boardLast.getLast())){
+                flip(position);
+                return true;
+            }
+            else if(domino.getFirst().equals(0)){
+                return true;
+            }
+            else if (domino.getLast().equals(0)){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+
 }
