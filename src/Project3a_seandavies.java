@@ -29,25 +29,6 @@ public class Project3a_seandavies {
         display(board1);
         humanTurnDisplay(p1);
 
-
-//        p1.flip(0);
-//        System.out.println("Player: " + p1.playerDominoes);
-//        c1.flip(1);
-//        System.out.println("Computer: " + c1.computerDominoes);
-//        System.out.println("Board: " + board1.boardDominoes);
-//        board1.checkMove(p1.play(0),'l');
-//        System.out.println("Board: " + board1.boardDominoes);
-//        System.out.println("Player: " + p1.playerDominoes);
-//        System.out.println("Computer: " + c1.computerDominoes);
-//        if (!board1.checkMove(c1.play(0),'l')) {
-//            System.out.println("False Moves: " + board1.falseMove);
-//            c1.computerDominoes.add(0,board1.falseMove.get(0));
-//            board1.falseMove.clear();
-//        }
-//        System.out.println("Board: " + board1.boardDominoes);
-//        System.out.println("Player: " + p1.playerDominoes);
-//        System.out.println("Computer: " + c1.computerDominoes);
-//        System.out.println("False Moves: " + board1.falseMove);
     }
 
     static void displayerDebug(Player p1, Computer c1, Boneyard b1, Board board1, Dominoes d1){
