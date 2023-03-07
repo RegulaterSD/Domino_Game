@@ -87,6 +87,10 @@ public class Project3a_seandavies {
                 board1.checkMove(c1.play(computerPosition), "r");
                 computerPosition = -1;
                 deadMove = 0;
+                right++;
+            }
+            else {
+                left++;
             }
         }
     }
@@ -114,6 +118,14 @@ public class Project3a_seandavies {
                 } else if (rotate.matches("n")) {
                     board1.checkMove(p1.play(dominoNumber), lOrR);
                 }
+                if (left != 0 || right != 0){
+                    if (lOrR.matches("r")){
+                        right++;
+                    }
+                    else if (lOrR.matches("l")){
+                        left++;
+                    }
+                }
             }
             case "d" -> {
                 System.out.println("Player chose to draw from boneyard");
@@ -137,8 +149,19 @@ public class Project3a_seandavies {
         }
     }
 
-    static void addToLines(LinkedList line1, LinkedList line2, int right, int left){
-
+    static void addToLines(LinkedList line1, LinkedList line2, int right, int left, LinkedList domino){
+        if (right%2 != 0){
+            line2.addLast(domino);
+        }
+        else if (right%2 == 0){
+            line1.addLast(domino);
+        }
+        else if (left%2 != 0){
+            line2.addFirst(domino);
+        }
+        else if (left%2 == 0){
+            line1.addFirst(domino);
+        }
     }
 
     static void display(LinkedList line1, LinkedList line2){
