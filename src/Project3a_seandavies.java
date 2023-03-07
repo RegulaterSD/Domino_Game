@@ -88,9 +88,11 @@ public class Project3a_seandavies {
                 computerPosition = -1;
                 deadMove = 0;
                 right++;
+                addToLines(line1,line2,right,left,board1.boardDominoes.getLast());
             }
             else {
                 left++;
+                addToLines(line1,line2,right,left,board1.boardDominoes.getFirst());
             }
         }
     }
@@ -115,8 +117,20 @@ public class Project3a_seandavies {
                 if (rotate.matches("y")) {
                     p1.flip(dominoNumber);
                     board1.checkMove(p1.play(dominoNumber), lOrR);
+                    if (lOrR.matches("l")){
+                        addToLines(line1,line2,right,left,board1.boardDominoes.getFirst());
+                    }
+                    else if (lOrR.matches("r")){
+                        addToLines(line1,line2,right,left,board1.boardDominoes.getLast());
+                    }
                 } else if (rotate.matches("n")) {
                     board1.checkMove(p1.play(dominoNumber), lOrR);
+                    if (lOrR.matches("l")){
+                        addToLines(line1,line2,right,left,board1.boardDominoes.getFirst());
+                    }
+                    else if (lOrR.matches("r")){
+                        addToLines(line1,line2,right,left,board1.boardDominoes.getLast());
+                    }
                 }
                 if (left != 0 || right != 0){
                     if (lOrR.matches("r")){
