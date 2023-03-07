@@ -14,6 +14,7 @@ public class Project3a_seandavies {
     static String lOrR;
     static String rotate;
     static int domino;
+    static boolean gameOver = false;
 
     public static void main(String[] args) {
 
@@ -26,6 +27,7 @@ public class Project3a_seandavies {
         Boneyard b1 = new Boneyard(boneyardStart);
         Board board1 = new Board(boardStart);
 
+
         originalDisplay(c1,b1);
         display(board1);
         humanTurnDisplay(p1);
@@ -34,7 +36,8 @@ public class Project3a_seandavies {
         System.out.println(domino);
         System.out.println(lOrR);
         System.out.println(rotate);
-        board1.checkMove(p1.play(domino), lOrR);
+        playerInput(p1,board1,b1);
+
         display(board1);
         humanTurnDisplay(p1);
 
@@ -84,12 +87,39 @@ public class Project3a_seandavies {
     static void playerChoices(){
         Scanner sc = new Scanner(System.in);
         humanChoice = sc.nextLine();
-        System.out.println("Which domino?");
-        domino = Integer.parseInt(sc.nextLine());
-        System.out.println("Left or Right? (l/r)");
-        lOrR = sc.nextLine();
-        System.out.println("Rotate first? (y/n)");
-        rotate = sc.nextLine();
+        if (humanChoice.matches("p")) {
+            System.out.println("Which domino?");
+            domino = Integer.parseInt(sc.nextLine());
+            System.out.println("Left or Right? (l/r)");
+            lOrR = sc.nextLine();
+            System.out.println("Rotate first? (y/n)");
+            rotate = sc.nextLine();
+        }
+    }
+
+    static void playerInput(Player p1, Board board1, Boneyard b1){
+        switch (humanChoice){
+            case "p":
+                System.out.println("Player chose to play");
+                board1.checkMove(p1.play(domino), lOrR);
+                break;
+            case "d":
+                System.out.println("Player chose to draw from boneyard");
+                if (b1.boneyardDominoes.size() != 0) {
+                    System.out.println("Drawing from BoneYard");
+                    p1.draw(b1.getBoneyard());
+                }
+                else {
+                    System.out.println("DeadMove");
+                    deadMove++;
+                }
+                break;
+            case "q":
+                gameOver = true;
+                break;
+            default:
+                break;
+        }
     }
 
     static void display(Board board1){
