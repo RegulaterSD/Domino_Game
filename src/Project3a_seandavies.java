@@ -44,6 +44,7 @@ public class Project3a_seandavies {
         System.out.println("Board size: " + board1.boardDominoes.size());
     }
 
+
     static void computerMove(Computer c1, Board board1, Boneyard b1){
         System.out.println("Computer move: " + c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast()));
         computerPosition = c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast());
