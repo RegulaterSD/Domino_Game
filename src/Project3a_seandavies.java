@@ -13,7 +13,7 @@ public class Project3a_seandavies {
     static String humanChoice;
     static String lOrR;
     static String rotate;
-    static int domino;
+    static int dominoNumber;
     static boolean gameOver = false;
 
     public static void main(String[] args) {
@@ -33,7 +33,7 @@ public class Project3a_seandavies {
         humanTurnDisplay(p1);
         playerChoices();
         System.out.println(humanChoice);
-        System.out.println(domino);
+        System.out.println(dominoNumber);
         System.out.println(lOrR);
         System.out.println(rotate);
         playerInput(p1,board1,b1);
@@ -89,7 +89,7 @@ public class Project3a_seandavies {
         humanChoice = sc.nextLine();
         if (humanChoice.matches("p")) {
             System.out.println("Which domino?");
-            domino = Integer.parseInt(sc.nextLine());
+            dominoNumber = Integer.parseInt(sc.nextLine());
             System.out.println("Left or Right? (l/r)");
             lOrR = sc.nextLine();
             System.out.println("Rotate first? (y/n)");
@@ -98,12 +98,17 @@ public class Project3a_seandavies {
     }
 
     static void playerInput(Player p1, Board board1, Boneyard b1){
-        switch (humanChoice){
-            case "p":
+        switch (humanChoice) {
+            case "p" -> {
                 System.out.println("Player chose to play");
-                board1.checkMove(p1.play(domino), lOrR);
-                break;
-            case "d":
+                if (rotate.matches("y")) {
+                    p1.flip(dominoNumber);
+                    board1.checkMove(p1.play(dominoNumber), lOrR);
+                } else if (rotate.matches("n")) {
+                    board1.checkMove(p1.play(dominoNumber), lOrR);
+                }
+            }
+            case "d" -> {
                 System.out.println("Player chose to draw from boneyard");
                 if (board1.boardDominoes.size() != 0) {
                     if (!p1.playerMove(board1.boardDominoes.getFirst(), board1.boardDominoes.getLast())) {
@@ -115,16 +120,13 @@ public class Project3a_seandavies {
                             deadMove++;
                         }
                     }
-                }
-                else {
+                } else {
                     System.out.println("Cannot draw, you have a valid move possible");
                 }
-                break;
-            case "q":
-                gameOver = true;
-                break;
-            default:
-                break;
+            }
+            case "q" -> gameOver = true;
+            default -> {
+            }
         }
     }
 

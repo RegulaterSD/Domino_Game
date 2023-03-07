@@ -31,10 +31,8 @@ public class Player {
         LinkedList<LinkedList> temp1 = new LinkedList<>();
         LinkedList<Integer> temp2 = new LinkedList<>();
         temp1 = play(position);
-        System.out.println(temp1);
         temp2.add(Integer.valueOf(String.valueOf(temp1.get(1))));
         temp2.add(Integer.valueOf(String.valueOf(temp1.get(0))));
-        System.out.println(temp2);
         playerDominoes.add(position,temp2);
     }
 
