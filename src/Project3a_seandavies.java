@@ -6,6 +6,8 @@ public class Project3a_seandavies {
     static LinkedList<LinkedList> playerStart = new LinkedList<>();
     static LinkedList<LinkedList> computerStart = new LinkedList<>();
     static LinkedList<LinkedList> boneyardStart = new LinkedList<>();
+    static LinkedList<LinkedList> line1 = new LinkedList<>();
+    static LinkedList<LinkedList> line2 = new LinkedList<>();
     static boolean playerMoved = false;
     static boolean computerMoved = true;
     static int computerPosition;
@@ -15,6 +17,8 @@ public class Project3a_seandavies {
     static String rotate;
     static int dominoNumber;
     static boolean gameOver = false;
+    static int left = 0;
+    static int right = 0;
 
     public static void main(String[] args) {
 
@@ -29,7 +33,7 @@ public class Project3a_seandavies {
 
 
         originalDisplay(c1,b1);
-        display(board1);
+        display(line1,line2);
         humanTurnDisplay(p1);
         playerChoices();
         System.out.println(humanChoice);
@@ -37,10 +41,13 @@ public class Project3a_seandavies {
         System.out.println(lOrR);
         System.out.println(rotate);
         playerInput(p1,board1,b1);
-
-        display(board1);
+        computerMove(c1,board1,b1);
+        display(line1,line2);
         humanTurnDisplay(p1);
-
+        playerChoices();
+        playerInput(p1,board1,b1);
+        display(line1,line2);
+        humanTurnDisplay(p1);
     }
 
     static void displayerDebug(Player p1, Computer c1, Boneyard b1, Board board1, Dominoes d1){
@@ -130,17 +137,11 @@ public class Project3a_seandavies {
         }
     }
 
-    static void display(Board board1){
-        LinkedList<LinkedList> line1 = new LinkedList<>();
-        LinkedList<LinkedList> line2 = new LinkedList<>();
-        for (int i = 0; i < board1.boardDominoes.size(); i++){
-            if (i%2 == 0){
-                line1.add(board1.boardDominoes.get(i));
-            }
-            else {
-                line2.add(board1.boardDominoes.get(i));
-            }
-        }
+    static void addToLines(LinkedList line1, LinkedList line2, int right, int left){
+
+    }
+
+    static void display(LinkedList line1, LinkedList line2){
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         for (Object object : line1)
