@@ -139,7 +139,7 @@ public class Project3a_seandavies {
 
     static void playerInput(Player p1, Board board1, Boneyard b1){
         Scanner sc = new Scanner(System.in);
-        if (left != 0 || right != 0){
+        if ((left != 0 || right != 0) && humanChoice.matches("p")){
             if (lOrR.matches("r")){
                 right++;
                 System.out.println("Right increased to: " + right);
@@ -181,6 +181,12 @@ public class Project3a_seandavies {
                         } else {
                             System.out.println("DeadMove");
                             deadMove++;
+                        }
+                    }
+                    else {
+                        while (humanChoice.matches("d")) {
+                            System.out.println("Cannot draw you have a valid move possible");
+                            playerChoices(p1, board1);
                         }
                     }
                 } else {
