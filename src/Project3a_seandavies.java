@@ -37,6 +37,7 @@ public class Project3a_seandavies {
         display(line1,line2);
         humanTurnDisplay(p1);
         while (!dm1.isGameOver(gameOver,p1,c1)){
+            System.out.println("Computer Tray: " + c1.computerDominoes);
             playerChoices(p1,board1);
             System.out.println(humanChoice);
             System.out.println(dominoNumber);
@@ -154,7 +155,19 @@ public class Project3a_seandavies {
                 System.out.println("Player chose to play");
                 if (rotate.matches("y")) {
                     p1.flip(dominoNumber);
-                    board1.checkMove(p1.play(dominoNumber), lOrR);
+                    if (!board1.checkMove(p1.play(dominoNumber), lOrR)){
+                        System.out.println("False Moves: " + board1.falseMove);
+                        System.out.println();
+                        System.out.println("Player did not do a valid move!!!");
+                        System.out.println();
+                        System.out.println("False Moves: " + board1.falseMove);
+                        p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
+                        board1.falseMove.clear();
+                        System.out.println("False Moves: " + board1.falseMove);
+                        System.out.println(p1.playerDominoes);
+                        humanChoice = "";
+                        playerChoices(p1,board1);
+                    }
                     if (lOrR.matches("l")){
                         addToLines(line1,line2,right,left,board1.boardDominoes.getFirst(),'l');
                     }
@@ -162,7 +175,19 @@ public class Project3a_seandavies {
                         addToLines(line1,line2,right,left,board1.boardDominoes.getLast(),'r');
                     }
                 } else if (rotate.matches("n")) {
-                    board1.checkMove(p1.play(dominoNumber), lOrR);
+                    if (!board1.checkMove(p1.play(dominoNumber), lOrR)){
+                        System.out.println("False Moves: " + board1.falseMove);
+                        System.out.println();
+                        System.out.println("Player did not do a valid move!!!");
+                        System.out.println();
+                        System.out.println("False Moves: " + board1.falseMove);
+                        p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
+                        board1.falseMove.clear();
+                        System.out.println("False Moves: " + board1.falseMove);
+                        System.out.println(p1.playerDominoes);
+                        humanChoice = "";
+                        playerChoices(p1,board1);
+                    }
                     if (lOrR.matches("l")){
                         addToLines(line1,line2,right,left,board1.boardDominoes.getFirst(),'l');
                     }
