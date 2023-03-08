@@ -37,7 +37,7 @@ public class Project3a_seandavies {
         display(line1,line2);
         humanTurnDisplay(p1);
         while (!dm1.isGameOver(gameOver,p1,c1)){
-            playerChoices();
+            playerChoices(p1);
             System.out.println(humanChoice);
             System.out.println(dominoNumber);
             System.out.println(lOrR);
@@ -104,20 +104,37 @@ public class Project3a_seandavies {
         }
     }
 
-    static void playerChoices(){
+    static void playerChoices(Player p1){
         Scanner sc = new Scanner(System.in);
         humanChoice = sc.nextLine();
         if (humanChoice.matches("p")) {
             System.out.println("Which domino?");
             dominoNumber = Integer.parseInt(sc.nextLine());
+            while (dominoNumber >= p1.dominoCount() || dominoNumber < 0){
+                System.out.println("Please enter a valid Domino number 0 - " + (p1.dominoCount() - 1));
+                dominoNumber = Integer.parseInt(sc.nextLine());
+            }
             System.out.println("Left or Right? (l/r)");
             lOrR = sc.nextLine();
+            while (!lOrR.matches("l") && !lOrR.matches("r")){
+                System.out.println("Please enter a valid option (l/r)");
+                lOrR = sc.nextLine();
+            }
             System.out.println("Rotate first? (y/n)");
             rotate = sc.nextLine();
+            while (!rotate.matches("y") && !rotate.matches("n")){
+                System.out.println("Please enter a valid option (y/n)");
+                rotate = sc.nextLine();
+            }
+        }
+        else if (!humanChoice.matches("p") && !humanChoice.matches("q") && !humanChoice.matches("d")){
+            System.out.println("Please enter a valid  (p/d/q)");
+            playerChoices(p1);
         }
     }
 
     static void playerInput(Player p1, Board board1, Boneyard b1){
+        Scanner sc = new Scanner(System.in);
         if (left != 0 || right != 0){
             if (lOrR.matches("r")){
                 right++;
