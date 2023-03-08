@@ -33,8 +33,6 @@ public class Board {
                 return true;
             }
             else {
-                System.out.println("Not a valid Move");
-                System.out.println("Moving: " + leftOrRight + " Domino: " + domino);
                 falseMove.add(domino);
                 return false;
             }
@@ -53,8 +51,6 @@ public class Board {
                 return true;
             }
             else {
-                System.out.println("Not a valid Move");
-                System.out.println("Moving :" + leftOrRight + " Domino: " + domino);
                 falseMove.add(domino);
                 return false;
             }

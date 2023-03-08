@@ -36,52 +36,30 @@ public class Project3a_seandavies {
         originalDisplay(c1,b1);
         display(line1,line2);
         humanTurnDisplay(p1);
+        playerChoices(p1,board1);
+        playerInput(p1, board1, b1);
         while (!dm1.isGameOver(gameOver,p1,c1)){
+            originalDisplay(c1,b1);
             System.out.println("Computer Tray: " + c1.computerDominoes);
-            playerChoices(p1,board1);
-            System.out.println(humanChoice);
-            System.out.println(dominoNumber);
-            System.out.println(lOrR);
-            System.out.println(rotate);
-            playerInput(p1, board1, b1);
-            if (!humanChoice.matches("q")) {
-                computerMove(c1, board1, b1);
-                display(line1, line2);
-                humanTurnDisplay(p1);
-            }
+            //playerChoices(p1,board1);
+            //playerInput(p1, board1, b1);
+//            if (!humanChoice.matches("q")) {
+//                computerMove(c1, board1, b1);
+//                display(line1, line2);
+//                humanTurnDisplay(p1);
+//            }
+            computerMove(c1, board1, b1);
+            display(line1, line2);
         }
         System.out.println(dm1.endGame(p1,c1,b1,playerForfeit));
-//        playerInput(p1,board1,b1);
-//        computerMove(c1,board1,b1);
-//        display(line1,line2);
-//        humanTurnDisplay(p1);
-//        playerChoices();
-//        playerInput(p1,board1,b1);
-//        display(line1,line2);
-//        humanTurnDisplay(p1);
-    }
-
-    static void displayerDebug(Player p1, Computer c1, Boneyard b1, Board board1, Dominoes d1){
-        System.out.println("All Dominoes: " + d1.currentDominoes);
-        System.out.println("All Dominoes size: " + d1.currentDominoes.size());
-        System.out.println("Player: " + p1.playerDominoes);
-        System.out.println("Player size: " + p1.dominoCount());
-        System.out.println("Computer: " + c1.computerDominoes);
-        System.out.println("Computer size: " + c1.dominoCount());
-        System.out.println("Boneyard: " + b1.boneyardDominoes);
-        System.out.println("Boneyard size: " + b1.dominoCount());
-        System.out.println("Board: " + board1.boardDominoes);
-        System.out.println("Board size: " + board1.boardDominoes.size());
     }
 
 
     static void computerMove(Computer c1, Board board1, Boneyard b1){
-        System.out.println("Computer move: " + c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast()));
         computerPosition = c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast());
-        System.out.println("Computer Position: " + computerPosition);
         if (computerPosition == -1){
             if (b1.boneyardDominoes.size() != 0) {
-                System.out.println("Drawing from BoneYard");
+                System.out.println("Computer drawing from BoneYard");
                 c1.draw(b1.getBoneyard());
             }
             else {
@@ -91,10 +69,8 @@ public class Project3a_seandavies {
         }
         else {
             if (!board1.checkMove(c1.play(computerPosition), "l")) {
-                System.out.println("False Moves: " + board1.falseMove);
                 c1.computerDominoes.add(computerPosition, board1.falseMove.get(0));
                 board1.falseMove.clear();
-                System.out.println("Moved right");
                 board1.checkMove(c1.play(computerPosition), "r");
                 computerPosition = -1;
                 deadMove = 0;
@@ -146,11 +122,9 @@ public class Project3a_seandavies {
         if ((left != 0 || right != 0) && humanChoice.matches("p")){
             if (lOrR.matches("r")){
                 right++;
-                System.out.println("Right increased to: " + right);
             }
             else if (lOrR.matches("l")){
                 left++;
-                System.out.println("Left increased to: " + left);
             }
         }
         switch (humanChoice) {
@@ -159,14 +133,9 @@ public class Project3a_seandavies {
                 if (rotate.matches("y")) {
                     p1.flip(dominoNumber);
                     if (!board1.checkMove(p1.play(dominoNumber), lOrR)){
-                        System.out.println("False Moves: " + board1.falseMove);
-                        System.out.println();
-                        System.out.println("Player did not do a valid move!!!");
-                        System.out.println();
-                        System.out.println("False Moves: " + board1.falseMove);
+                        System.out.println("Player did not do a valid move!");
                         p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
                         board1.falseMove.clear();
-                        System.out.println("False Moves: " + board1.falseMove);
                         System.out.println(p1.playerDominoes);
                         humanChoice = "";
                         playerChoices(p1,board1);
@@ -179,14 +148,9 @@ public class Project3a_seandavies {
                     }
                 } else if (rotate.matches("n")) {
                     if (!board1.checkMove(p1.play(dominoNumber), lOrR)){
-                        System.out.println("False Moves: " + board1.falseMove);
-                        System.out.println();
                         System.out.println("Player did not do a valid move!!!");
-                        System.out.println();
-                        System.out.println("False Moves: " + board1.falseMove);
                         p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
                         board1.falseMove.clear();
-                        System.out.println("False Moves: " + board1.falseMove);
                         System.out.println(p1.playerDominoes);
                         humanChoice = "";
                         playerChoices(p1,board1);
@@ -222,6 +186,7 @@ public class Project3a_seandavies {
                 }
             }
             case "q" -> {
+                System.out.println("Player chose to quit");
                 playerForfeit = true;
                 gameOver = true;
             }
@@ -231,7 +196,6 @@ public class Project3a_seandavies {
     }
 
     static void addToLines(LinkedList line1, LinkedList line2, int right, int left, LinkedList domino, char lOrR){
-        System.out.println("Right: " + right + " Left: " + left);
         if (right%2 != 0 && lOrR == 'r'){
             line2.addLast(domino);
         }

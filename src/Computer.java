@@ -31,13 +31,9 @@ public class Computer {
         LinkedList<LinkedList> temp1 = new LinkedList<>();
         LinkedList<Integer> temp2 = new LinkedList<>();
         temp1 = play(position);
-        System.out.println("Flipping");
-        System.out.println(temp1);
         temp2.add(Integer.valueOf(String.valueOf(temp1.get(1))));
         temp2.add(Integer.valueOf(String.valueOf(temp1.get(0))));
-        System.out.println(temp2);
         computerDominoes.add(position,temp2);
-        System.out.println("Done Flipping");
     }
 
     void restart(LinkedList dominoes){
