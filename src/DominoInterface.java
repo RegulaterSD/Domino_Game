@@ -5,10 +5,8 @@ public interface DominoInterface {
     void initGame(LinkedList boardStart, LinkedList playerStart, LinkedList computerStart,
                   LinkedList boneyardStart, Dominoes d1);
 
-    boolean isGameOver();
+    boolean isGameOver(boolean gameOver, Player p1, Computer c1);
 
-    String getBoard();
-
-    void endGame();
+    String endGame(Player p1, Computer c1, Boneyard b1, boolean playerForfeit);
 
 }

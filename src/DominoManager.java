@@ -21,17 +21,32 @@ public class DominoManager implements DominoInterface{
     }
 
     @Override
-    public boolean isGameOver() {
-        return false;
+    public boolean isGameOver(boolean gameOver, Player p1, Computer c1) {
+        if (gameOver) {
+            return true;
+        }
+        else if (p1.dominoCount() == 0 || c1.dominoCount() == 0){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
-    public String getBoard() {
-        return null;
-    }
-
-    @Override
-    public void endGame() {
-
+    public String endGame(Player p1, Computer c1, Boneyard b1, boolean playerForfeit) {
+        String winner;
+        if (p1.dominoCount() == 0){
+            return "Player wins";
+        }
+        else if (c1.dominoCount() == 0 || playerForfeit){
+            return "Computer wins";
+        }
+        else if (p1.dominoesTotal() > c1.dominoesTotal()) {
+            return "Computer wins";
+        }
+        else{
+            return "Player wins";
+        }
     }
 }
