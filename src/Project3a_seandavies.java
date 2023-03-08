@@ -19,6 +19,7 @@ public class Project3a_seandavies {
     static boolean gameOver = false;
     static int left = 0;
     static int right = 0;
+    static boolean playerForfeit = false;
 
     public static void main(String[] args) {
 
@@ -35,21 +36,25 @@ public class Project3a_seandavies {
         originalDisplay(c1,b1);
         display(line1,line2);
         humanTurnDisplay(p1);
-        playerChoices();
-        System.out.println(humanChoice);
-        System.out.println(dominoNumber);
-        System.out.println(lOrR);
-        System.out.println(rotate);
-        playerInput(p1,board1,b1);
-        System.out.println("Right: " + right + " Left: " + left);
-        computerMove(c1,board1,b1);
-        System.out.println("Right: " + right + " Left: " + left);
-        display(line1,line2);
-        humanTurnDisplay(p1);
-        playerChoices();
-        playerInput(p1,board1,b1);
-        display(line1,line2);
-        humanTurnDisplay(p1);
+        while (!dm1.isGameOver(gameOver,p1,c1)){
+            playerChoices();
+            System.out.println(humanChoice);
+            System.out.println(dominoNumber);
+            System.out.println(lOrR);
+            System.out.println(rotate);
+            playerInput(p1,board1,b1);
+            computerMove(c1,board1,b1);
+            display(line1,line2);
+            humanTurnDisplay(p1);
+        }
+//        playerInput(p1,board1,b1);
+//        computerMove(c1,board1,b1);
+//        display(line1,line2);
+//        humanTurnDisplay(p1);
+//        playerChoices();
+//        playerInput(p1,board1,b1);
+//        display(line1,line2);
+//        humanTurnDisplay(p1);
     }
 
     static void displayerDebug(Player p1, Computer c1, Boneyard b1, Board board1, Dominoes d1){
@@ -161,7 +166,10 @@ public class Project3a_seandavies {
                     System.out.println("Cannot draw, you have a valid move possible");
                 }
             }
-            case "q" -> gameOver = true;
+            case "q" -> {
+                playerForfeit = true;
+                gameOver = true;
+            }
             default -> {
             }
         }
@@ -197,13 +205,9 @@ public class Project3a_seandavies {
         String indent = "   ";
         String temp1 = sb1.toString().replaceAll(","," ");
         String temp2 = sb2.toString().replaceAll(","," ");
-        if (line1.size() > line2.size()) {
+        if (left%2 == 0) {
             System.out.println(temp1);
             System.out.println(indent + temp2);
-        }
-        else if (line1.size() == line2.size()){
-            System.out.println(indent + temp1);
-            System.out.println(temp2);
         }
         else {
             System.out.println(indent + temp1);
