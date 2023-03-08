@@ -43,11 +43,14 @@ public class Project3a_seandavies {
             System.out.println(dominoNumber);
             System.out.println(lOrR);
             System.out.println(rotate);
-            playerInput(p1,board1,b1);
-            computerMove(c1,board1,b1);
-            display(line1,line2);
-            humanTurnDisplay(p1);
+            playerInput(p1, board1, b1);
+            if (!humanChoice.matches("q")) {
+                computerMove(c1, board1, b1);
+                display(line1, line2);
+                humanTurnDisplay(p1);
+            }
         }
+        System.out.println(dm1.endGame(p1,c1,b1,playerForfeit));
 //        playerInput(p1,board1,b1);
 //        computerMove(c1,board1,b1);
 //        display(line1,line2);

@@ -35,11 +35,16 @@ public class DominoManager implements DominoInterface{
 
     @Override
     public String endGame(Player p1, Computer c1, Boneyard b1, boolean playerForfeit) {
-        String winner;
-        if (p1.dominoCount() == 0){
+        p1.clear();
+        c1.clear();
+        b1.clear();
+        if (playerForfeit){
+            return "Player forfeit Computer Wins";
+        }
+        else if (p1.dominoCount() == 0){
             return "Player wins";
         }
-        else if (c1.dominoCount() == 0 || playerForfeit){
+        else if (c1.dominoCount() == 0){
             return "Computer wins";
         }
         else if (p1.dominoesTotal() > c1.dominoesTotal()) {
