@@ -37,7 +37,7 @@ public class Project3a_seandavies {
         display(line1,line2);
         humanTurnDisplay(p1);
         while (!dm1.isGameOver(gameOver,p1,c1)){
-            playerChoices(p1);
+            playerChoices(p1,board1);
             System.out.println(humanChoice);
             System.out.println(dominoNumber);
             System.out.println(lOrR);
@@ -104,7 +104,7 @@ public class Project3a_seandavies {
         }
     }
 
-    static void playerChoices(Player p1){
+    static void playerChoices(Player p1, Board board1){
         Scanner sc = new Scanner(System.in);
         humanChoice = sc.nextLine();
         if (humanChoice.matches("p")) {
@@ -129,7 +129,11 @@ public class Project3a_seandavies {
         }
         else if (!humanChoice.matches("p") && !humanChoice.matches("q") && !humanChoice.matches("d")){
             System.out.println("Please enter a valid  (p/d/q)");
-            playerChoices(p1);
+            playerChoices(p1,board1);
+        }
+        else if (humanChoice.matches("d") && board1.boardDominoes.size() == 0){
+            System.out.println("You cannot draw you have a valid move");
+            playerChoices(p1,board1);
         }
     }
 
