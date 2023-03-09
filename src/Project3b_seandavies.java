@@ -59,11 +59,27 @@ public class Project3b_seandavies extends Application {
         Label computerLabel = new Label("Computer has " + " dominoes");
         computerLabel.setStyle("-fx-font: 24 arial;");
 
+        Button flipButton = new Button("Flip Domino");
+        flipButton.setStyle("-fx-font: 24 arial;");
+        flipButton.setOnAction(EventHandler -> {
+
+        });
+        Button leftButton = new Button("Play Left");
+        leftButton.setStyle("-fx-font: 24 arial;");
+        leftButton.setOnAction(EventHandler -> {
+
+        });
+        Button rightButton = new Button("Play Right");
+        rightButton.setStyle("-fx-font: 24 arial;");
+        rightButton.setOnAction(EventHandler -> {
+
+        });
         Button drawBoneyard = new Button("Draw from boneyard");
         drawBoneyard.setStyle("-fx-font: 24 arial;");
         drawBoneyard.setOnAction(EventHandler -> {
 
         });
+
 
         AnimationTimer animationTimer = new AnimationTimer() {
             private long startTime = -1;
@@ -97,7 +113,13 @@ public class Project3b_seandavies extends Application {
         root.getChildren().add(computerLabel);
         stackPane.getChildren().add(canvas);
         root.getChildren().add(stackPane);
-        root.getChildren().add(drawBoneyard);
+        GridPane buttonPane = new GridPane();
+        GridPane.setConstraints(flipButton,0,0);
+        GridPane.setConstraints(leftButton,1,0);
+        GridPane.setConstraints(rightButton, 2, 0);
+        GridPane.setConstraints(drawBoneyard, 3, 0);
+        buttonPane.getChildren().addAll(flipButton,leftButton,rightButton,drawBoneyard);
+        root.getChildren().add(buttonPane);
         root.setAlignment(Pos.TOP_CENTER);
         stage.show();
     }
