@@ -34,9 +34,11 @@ public class Project3b_seandavies extends Application {
     private static boolean gameOver = false;
     private static int left = 0;
     private static int right = 0;
-    private static boolean playerForfeit = false;
+    private static boolean drawing = false;
     private static boolean dominoChosen = false;
+    private static boolean lOrRightChosen = false;
     private static String rotate;
+    private static int deadMove = 0;
 
 
     public static void main(String[] args) {
@@ -88,7 +90,8 @@ public class Project3b_seandavies extends Application {
         Button drawBoneyard = new Button("Draw from boneyard");
         drawBoneyard.setStyle("-fx-font: 24 arial;");
         drawBoneyard.setOnAction(EventHandler -> {
-
+            drawing = true;
+            playerInput(p1,board1,b1);
         });
 
 
@@ -114,8 +117,11 @@ public class Project3b_seandavies extends Application {
                 yPosition = (int) event.getSceneY();
                 System.out.println("X Position: " + xPosition);
                 System.out.println("Y Position: " + yPosition);
-                if (yPosition >= 190 && xPosition >= 50 && xPosition <= (((7) * 100)+50)){
+                if (yPosition >= 190 && xPosition >= 50 && xPosition <= (((p1.dominoCount()) * 100)+50)){
                     System.out.println("User clicked a domino");
+                    dominoNumber = (xPosition - 50)/100;
+                    System.out.println("Domino Clicked: " + dominoNumber);
+                    dominoChosen = true;
                 }
             }
         });
@@ -138,78 +144,72 @@ public class Project3b_seandavies extends Application {
         stage.show();
     }
 
-//    static void playerInput(Player p1, Board board1, Boneyard b1){
-//        Scanner sc = new Scanner(System.in);
-//        if ((left != 0 || right != 0) && dominoChosen){
-//            if (lOrR.matches("r")){
-//                right++;
-//            }
-//            else if (lOrR.matches("l")){
-//                left++;
-//            }
-//        }
-//        switch (humanChoice) {
-//            case "p" -> {
-//                System.out.println("Player chose to play");
-//                if (rotate.matches("y")) {
-//                    p1.flip(dominoNumber);
-//                    if (!board1.checkMove(p1.play(dominoNumber), lOrR)){
-//                        System.out.println("Player did not do a valid move!");
-//                        p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
-//                        board1.falseMove.clear();
-//                        System.out.println(p1.playerDominoes);
-//                        humanChoice = "";
-//                        playerChoices(p1,board1);
-//                    }
-//                    if (lOrR.matches("l")){
-//                        addToLines(line1,line2,right,left,board1.boardDominoes.getFirst(),'l');
-//                    }
-//                    else if (lOrR.matches("r")){
-//                        addToLines(line1,line2,right,left,board1.boardDominoes.getLast(),'r');
-//                    }
-//                } else if (rotate.matches("n")) {
-//                    if (!board1.checkMove(p1.play(dominoNumber), lOrR)){
-//                        System.out.println("Player did not do a valid move!!!");
-//                        p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
-//                        board1.falseMove.clear();
-//                        System.out.println(p1.playerDominoes);
-//                        humanChoice = "";
-//                        playerChoices(p1,board1);
-//                    }
-//                    if (lOrR.matches("l")){
-//                        addToLines(line1,line2,right,left,board1.boardDominoes.getFirst(),'l');
-//                    }
-//                    else if (lOrR.matches("r")){
-//                        addToLines(line1,line2,right,left,board1.boardDominoes.getLast(),'r');
-//                    }
-//                }
-//            }
-//            case "d" -> {
-//                System.out.println("Player chose to draw from boneyard");
-//                if (board1.boardDominoes.size() != 0) {
-//                    if (!p1.playerMove(board1.boardDominoes.getFirst(), board1.boardDominoes.getLast())) {
-//                        if (b1.boneyardDominoes.size() != 0) {
-//                            System.out.println("Drawing from BoneYard");
-//                            p1.draw(b1.getBoneyard());
-//                        } else {
-//                            System.out.println("DeadMove");
-//                            deadMove++;
-//                        }
-//                    }
-//                    else {
-//                        while (humanChoice.matches("d")) {
-//                            System.out.println("Cannot draw you have a valid move possible");
-//                            playerChoices(p1, board1);
-//                        }
-//                    }
-//                } else {
-//                    System.out.println("Cannot draw, you have a valid move possible");
-//                }
-//            }
-//            default -> {
-//            }
-//        }
-//    }
+    static void playerInput(Player p1, Board board1, Boneyard b1){
+        Scanner sc = new Scanner(System.in);
+        if ((left != 0 || right != 0) && dominoChosen){
+            if (lOrR.matches("r")){
+                right++;
+            }
+            else if (lOrR.matches("l")){
+                left++;
+            }
+        }
+        //Player selected a domino
+        if (dominoChosen) {
+            System.out.println("Player chose to play");
+            if (rotate.matches("y")) {
+                p1.flip(dominoNumber);
+                if (!board1.checkMove(p1.play(dominoNumber), lOrR)) {
+                    System.out.println("Player did not do a valid move!");
+                    p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
+                    board1.falseMove.clear();
+                    System.out.println(p1.playerDominoes);
+                }
+                if (lOrR.matches("l")) {
+                    addToLines(line1, line2, right, left, board1.boardDominoes.getFirst());
+                } else if (lOrR.matches("r")) {
+                    addToLines(line1, line2, right, left, board1.boardDominoes.getLast());
+                }
+            } else if (rotate.matches("n")) {
+                if (!board1.checkMove(p1.play(dominoNumber), lOrR)) {
+                    System.out.println("Player did not do a valid move!!!");
+                    p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
+                    board1.falseMove.clear();
+                    System.out.println(p1.playerDominoes);
+                }
+                if (lOrR.matches("l")) {
+                    addToLines(line1, line2, right, left, board1.boardDominoes.getFirst());
+                } else if (lOrR.matches("r")) {
+                    addToLines(line1, line2, right, left, board1.boardDominoes.getLast());
+                }
+            }
+        }
+        //Player chose to draw
+        if (drawing) {
+            System.out.println("Player chose to draw from boneyard");
+            if (board1.boardDominoes.size() != 0) {
+                if (!p1.playerMove(board1.boardDominoes.getFirst(), board1.boardDominoes.getLast())) {
+                    if (b1.boneyardDominoes.size() != 0) {
+                        System.out.println("Drawing from BoneYard");
+                        p1.draw(b1.getBoneyard());
+                        drawing = false;
+                    } else {
+                        System.out.println("DeadMove");
+                        deadMove++;
+                        drawing = false;
+                    }
+                } else {
+                    while (drawing) {
+                        System.out.println("Cannot draw you have a valid move possible");
+                        drawing = false;
+                    }
+                }
+            } else {
+                System.out.println("Cannot draw, you have a valid move possible");
+                drawing = false;
+            }
+        }
+    }
 
     //LinkedList line1, LinkedList line2, LinkedList playerDominoes
     //Need to add indent
