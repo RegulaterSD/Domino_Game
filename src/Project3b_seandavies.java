@@ -75,6 +75,7 @@ public class Project3b_seandavies extends Application {
         flipButton.setStyle("-fx-font: 24 arial;");
         flipButton.setOnAction(EventHandler -> {
             rotateChosen = true;
+            drawDominoes(canvas,p1);
         });
         Button leftButton = new Button("Play Left");
         leftButton.setStyle("-fx-font: 24 arial;");
@@ -105,13 +106,13 @@ public class Project3b_seandavies extends Application {
                 }
                 Duration elapsed = Duration.ofNanos(now - startTime);
                 long milliseconds = elapsed.toMillis();
-                drawDominoes(canvas,d1);
                 if (rotateChosen && dominoChosen){
                     p1.flip(dominoNumber);
                     rotateChosen = false;
                 }
             }
         };
+        drawDominoes(canvas,p1);
         animationTimer.start();
 
         canvas.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
@@ -168,9 +169,9 @@ public class Project3b_seandavies extends Application {
                 System.out.println(p1.playerDominoes);
             }
             if (lOrR.matches("l")) {
-                addToLines(line1, line2, right, left, board1.boardDominoes.getFirst());
+                addToLines(right, left, board1.boardDominoes.getFirst());
             } else if (lOrR.matches("r")) {
-                addToLines(line1, line2, right, left, board1.boardDominoes.getLast());
+                addToLines(right, left, board1.boardDominoes.getLast());
             }
         }
         //Player chose to draw
@@ -202,7 +203,7 @@ public class Project3b_seandavies extends Application {
 
     //LinkedList line1, LinkedList line2, LinkedList playerDominoes
     //Need to add indent
-    static void drawDominoes(Canvas canvas, Dominoes d1){
+    static void drawDominoes(Canvas canvas, Player p1){
         int dominoWidth = 100;
         int dominoHalf = dominoWidth/2;
         int dominoHeight = dominoWidth/2;
@@ -215,26 +216,41 @@ public class Project3b_seandavies extends Application {
         int userDepth = 190;
         int userStart = 50;
 
-        System.out.println(d1.currentDominoes);
-
-        LinkedList<Integer> line1 = new LinkedList<>();
-        for (LinkedList l : d1.currentDominoes){
+        LinkedList<Integer> topLine = new LinkedList<>();
+        for (LinkedList l : line1){
             for (Object o : l){
-                line1.add(Integer.valueOf(String.valueOf(o)));
+                topLine.add(Integer.valueOf(String.valueOf(o)));
+            }
+        }
+        LinkedList<Integer> bottomLine = new LinkedList<>();
+        for (LinkedList l : line2){
+            for (Object o : l){
+                bottomLine.add(Integer.valueOf(String.valueOf(o)));
+            }
+        }
+        LinkedList<Integer> userLine = new LinkedList<>();
+        for (LinkedList l : p1.playerDominoes){
+            for (Object o : l){
+                userLine.add(Integer.valueOf(String.valueOf(o)));
             }
         }
 
-        System.out.println(line1);
+        System.out.println("Top Line: " + topLine);
+        System.out.println("Bottom Line: " + bottomLine);
+        System.out.println("User Line: " + userLine);
+        System.out.println(p1.playerDominoes);
 
         Integer dotCount;
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setFill(Color.rgb(255,255,255));
+        gc.fillRect(0,0,1500,350);
         Color dominoColor = Color.rgb(222,185,101);
         Color dotColor = Color.rgb(0,0,255);
         Color lineColor = Color.rgb(0,0,0);
 
         //i variable max needs to change to line1.size/2
-        for (Integer i = 0; i < 10; i++){
+        for (Integer i = 0; i < topLine.size()/2; i++){
             gc.setFill(dominoColor);
             gc.fillRoundRect(boardStart + (dominoWidth * i),boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
             gc.setFill(lineColor);
@@ -242,8 +258,8 @@ public class Project3b_seandavies extends Application {
             gc.strokeRoundRect(boardStart + (dominoWidth * i),boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
         }
         //i variable max needs to change to line1.size
-        for (Integer i = 0; i < 20; i++){
-            dotCount = line1.get(i);
+        for (Integer i = 0; i < topLine.size(); i++){
+            dotCount = topLine.get(i);
             gc.setFill(dotColor);
             switch (dotCount){
                 case 0 -> {
@@ -288,15 +304,15 @@ public class Project3b_seandavies extends Application {
         }
 
         //i variable max needs to change to line2.size/2
-        for (Integer i = 0; i < 10; i++){
+        for (Integer i = 0; i < bottomLine.size()/2; i++){
             gc.setFill(dominoColor);
             gc.fillRoundRect(boardStart + (dominoWidth * i),boardTwo,dominoWidth,dominoHeight,dotRadius,dotRadius);
             gc.setFill(lineColor);
             gc.fillRect(boardStart + (dominoWidth * i) + lineStart,boardTwo,lineWidth,dominoHeight);
             gc.strokeRoundRect(boardStart + (dominoWidth * i),boardTwo,dominoWidth,dominoHeight,dotRadius,dotRadius);
         }
-        for (Integer i = 0; i < 20; i++) {
-            dotCount = line1.get(i + 20);
+        for (Integer i = 0; i < bottomLine.size(); i++) {
+            dotCount = bottomLine.get(i);
             gc.setFill(dotColor);
             switch (dotCount) {
                 case 0 -> {
@@ -340,15 +356,15 @@ public class Project3b_seandavies extends Application {
             }
         }
         //Drawing User Dominoes
-        for (Integer i = 0; i < 10; i++){
+        for (Integer i = 0; i < userLine.size()/2; i++){
             gc.setFill(dominoColor);
             gc.fillRoundRect(userStart + (dominoWidth * i),userDepth,dominoWidth,dominoHeight,dotRadius,dotRadius);
             gc.setFill(lineColor);
             gc.fillRect(userStart + (dominoWidth * i) + lineStart,userDepth,lineWidth,dominoHeight);
             gc.strokeRoundRect(userStart + (dominoWidth * i),userDepth,dominoWidth,dominoHeight,dotRadius,dotRadius);
         }
-        for (Integer i = 0; i < 20; i++) {
-            dotCount = line1.get(i + 20);
+        for (Integer i = 0; i < userLine.size(); i++) {
+            dotCount = userLine.get(i);
             gc.setFill(dotColor);
             switch (dotCount) {
                 case 0 -> {
@@ -395,7 +411,7 @@ public class Project3b_seandavies extends Application {
 
     }
 
-    static void addToLines(LinkedList line1, LinkedList line2, int right, int left, LinkedList domino){
+    static void addToLines(int right, int left, LinkedList domino){
         if (right%2 != 0 && lOrR.matches("r")){
             line2.addLast(domino);
             lOrR = "";
