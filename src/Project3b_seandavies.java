@@ -85,11 +85,12 @@ public class Project3b_seandavies extends Application {
         stage.show();
     }
 
-    //LinkedList board, LinkedList playerDominoes
+    //LinkedList line1, LinkedList line2, LinkedList playerDominoes
     static void drawDominoes(Canvas canvas){
         int dominoWidth = 100;
-        int dominoHeight = 50;
-        int dotRadius = 10;
+        int dominoHalf = dominoWidth/2;
+        int dominoHeight = dominoWidth/2;
+        int dotRadius = dominoWidth/10;
         int lineWidth = 4;
         int lineStart = 48;
         int boardOne = 50;
@@ -98,16 +99,63 @@ public class Project3b_seandavies extends Application {
         int userDepth = 200;
         int userStart = 50;
 
+        Integer dotCount;
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
         Color dominoColor = Color.rgb(222,185,101);
         Color dotColor = Color.rgb(0,0,255);
         Color lineColor = Color.rgb(0,0,0);
-        gc.setFill(dominoColor);
-        gc.fillRoundRect(boardStart,boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
-        gc.setFill(dotColor);
-        gc.fillOval(boardStart + 20,boardOne + 20,dotRadius,dotRadius);
-        gc.setFill(lineColor);
-        gc.fillRect(boardStart + lineStart,boardOne,lineWidth,dominoHeight);
+
+        //change to enhanced for loop when taking in linked Lists
+        for (Integer i = 0; i <= 6; i++){
+            dotCount = i;
+            gc.setFill(dominoColor);
+            gc.fillRoundRect(boardStart + (dominoWidth * i),boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
+            gc.setFill(lineColor);
+            gc.fillRect(boardStart + (dominoWidth * i) + lineStart,boardOne,lineWidth,dominoHeight);
+            gc.strokeRoundRect(boardStart + (dominoWidth * i),boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
+            gc.setFill(dotColor);
+            switch (dotCount){
+                case 0 -> {
+                }
+                case 1 -> {
+                    gc.fillOval((boardStart + (dominoHalf * i) + 20),boardOne + 20,dotRadius,dotRadius);
+                }
+                case 2 -> {
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 35,dotRadius,dotRadius);
+                }
+                case 3 -> {
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 20),boardOne + 20,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 35,dotRadius,dotRadius);
+                }
+                case 4 -> {
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 35,dotRadius,dotRadius);
+                }
+                case 5 -> {
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 20),boardOne + 20,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 35,dotRadius,dotRadius);
+                }
+                case 6 -> {
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 20,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 20,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 35,dotRadius,dotRadius);
+                }
+                default -> {
+
+                }
+            }
+        }
 
 
     }
