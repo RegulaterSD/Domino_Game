@@ -18,16 +18,25 @@ import org.w3c.dom.css.RGBColor;
 import java.io.*;
 import java.time.Duration;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Project3b_seandavies extends Application {
     private int xPosition;
     private int yPosition;
+    private static String lOrR;
     private static LinkedList<LinkedList> boardStart = new LinkedList<>();
     private static LinkedList<LinkedList> playerStart = new LinkedList<>();
     private static LinkedList<LinkedList> computerStart = new LinkedList<>();
     private static LinkedList<LinkedList> boneyardStart = new LinkedList<>();
     private static LinkedList<LinkedList> line1 = new LinkedList<>();
     private static LinkedList<LinkedList> line2 = new LinkedList<>();
+    private static int dominoNumber;
+    private static boolean gameOver = false;
+    private static int left = 0;
+    private static int right = 0;
+    private static boolean playerForfeit = false;
+    private static boolean dominoChosen = false;
+    private static String rotate;
 
 
     public static void main(String[] args) {
@@ -62,16 +71,18 @@ public class Project3b_seandavies extends Application {
         Button flipButton = new Button("Flip Domino");
         flipButton.setStyle("-fx-font: 24 arial;");
         flipButton.setOnAction(EventHandler -> {
-
+            rotate = "y";
         });
         Button leftButton = new Button("Play Left");
         leftButton.setStyle("-fx-font: 24 arial;");
         leftButton.setOnAction(EventHandler -> {
+            lOrR = "r";
 
         });
         Button rightButton = new Button("Play Right");
         rightButton.setStyle("-fx-font: 24 arial;");
         rightButton.setOnAction(EventHandler -> {
+            lOrR = "r";
 
         });
         Button drawBoneyard = new Button("Draw from boneyard");
@@ -103,6 +114,9 @@ public class Project3b_seandavies extends Application {
                 yPosition = (int) event.getSceneY();
                 System.out.println("X Position: " + xPosition);
                 System.out.println("Y Position: " + yPosition);
+                if (yPosition >= 190 && xPosition >= 50 && xPosition <= (((7) * 100)+50)){
+                    System.out.println("User clicked a domino");
+                }
             }
         });
 
@@ -123,6 +137,79 @@ public class Project3b_seandavies extends Application {
         root.setAlignment(Pos.TOP_CENTER);
         stage.show();
     }
+
+//    static void playerInput(Player p1, Board board1, Boneyard b1){
+//        Scanner sc = new Scanner(System.in);
+//        if ((left != 0 || right != 0) && dominoChosen){
+//            if (lOrR.matches("r")){
+//                right++;
+//            }
+//            else if (lOrR.matches("l")){
+//                left++;
+//            }
+//        }
+//        switch (humanChoice) {
+//            case "p" -> {
+//                System.out.println("Player chose to play");
+//                if (rotate.matches("y")) {
+//                    p1.flip(dominoNumber);
+//                    if (!board1.checkMove(p1.play(dominoNumber), lOrR)){
+//                        System.out.println("Player did not do a valid move!");
+//                        p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
+//                        board1.falseMove.clear();
+//                        System.out.println(p1.playerDominoes);
+//                        humanChoice = "";
+//                        playerChoices(p1,board1);
+//                    }
+//                    if (lOrR.matches("l")){
+//                        addToLines(line1,line2,right,left,board1.boardDominoes.getFirst(),'l');
+//                    }
+//                    else if (lOrR.matches("r")){
+//                        addToLines(line1,line2,right,left,board1.boardDominoes.getLast(),'r');
+//                    }
+//                } else if (rotate.matches("n")) {
+//                    if (!board1.checkMove(p1.play(dominoNumber), lOrR)){
+//                        System.out.println("Player did not do a valid move!!!");
+//                        p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
+//                        board1.falseMove.clear();
+//                        System.out.println(p1.playerDominoes);
+//                        humanChoice = "";
+//                        playerChoices(p1,board1);
+//                    }
+//                    if (lOrR.matches("l")){
+//                        addToLines(line1,line2,right,left,board1.boardDominoes.getFirst(),'l');
+//                    }
+//                    else if (lOrR.matches("r")){
+//                        addToLines(line1,line2,right,left,board1.boardDominoes.getLast(),'r');
+//                    }
+//                }
+//            }
+//            case "d" -> {
+//                System.out.println("Player chose to draw from boneyard");
+//                if (board1.boardDominoes.size() != 0) {
+//                    if (!p1.playerMove(board1.boardDominoes.getFirst(), board1.boardDominoes.getLast())) {
+//                        if (b1.boneyardDominoes.size() != 0) {
+//                            System.out.println("Drawing from BoneYard");
+//                            p1.draw(b1.getBoneyard());
+//                        } else {
+//                            System.out.println("DeadMove");
+//                            deadMove++;
+//                        }
+//                    }
+//                    else {
+//                        while (humanChoice.matches("d")) {
+//                            System.out.println("Cannot draw you have a valid move possible");
+//                            playerChoices(p1, board1);
+//                        }
+//                    }
+//                } else {
+//                    System.out.println("Cannot draw, you have a valid move possible");
+//                }
+//            }
+//            default -> {
+//            }
+//        }
+//    }
 
     //LinkedList line1, LinkedList line2, LinkedList playerDominoes
     //Need to add indent
@@ -319,18 +406,22 @@ public class Project3b_seandavies extends Application {
 
     }
 
-    static void addToLines(LinkedList line1, LinkedList line2, int right, int left, LinkedList domino, char lOrR){
-        if (right%2 != 0 && lOrR == 'r'){
+    static void addToLines(LinkedList line1, LinkedList line2, int right, int left, LinkedList domino){
+        if (right%2 != 0 && lOrR.matches("r")){
             line2.addLast(domino);
+            lOrR = "";
         }
-        else if (right%2 == 0 && lOrR == 'r'){
+        else if (right%2 == 0 && lOrR.matches("r")){
             line1.addLast(domino);
+            lOrR = "";
         }
-        else if (left%2 != 0 && lOrR == 'l'){
+        else if (left%2 != 0 && lOrR.matches("l")){
             line2.addFirst(domino);
+            lOrR = "";
         }
-        else if (left%2 == 0 && lOrR == 'l'){
+        else if (left%2 == 0 && lOrR.matches("l")){
             line1.addFirst(domino);
+            lOrR = "";
         }
     }
 
