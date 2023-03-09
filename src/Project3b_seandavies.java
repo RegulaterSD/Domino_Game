@@ -37,7 +37,8 @@ public class Project3b_seandavies extends Application {
     private static boolean drawing = false;
     private static boolean dominoChosen = false;
     private static boolean lOrRightChosen = false;
-    private static String rotate;
+    private static boolean rotateChosen = false;
+
     private static int deadMove = 0;
 
 
@@ -73,19 +74,19 @@ public class Project3b_seandavies extends Application {
         Button flipButton = new Button("Flip Domino");
         flipButton.setStyle("-fx-font: 24 arial;");
         flipButton.setOnAction(EventHandler -> {
-            rotate = "y";
+            rotateChosen = true;
         });
         Button leftButton = new Button("Play Left");
         leftButton.setStyle("-fx-font: 24 arial;");
         leftButton.setOnAction(EventHandler -> {
             lOrR = "r";
-
+            lOrRightChosen = true;
         });
         Button rightButton = new Button("Play Right");
         rightButton.setStyle("-fx-font: 24 arial;");
         rightButton.setOnAction(EventHandler -> {
             lOrR = "r";
-
+            lOrRightChosen = true;
         });
         Button drawBoneyard = new Button("Draw from boneyard");
         drawBoneyard.setStyle("-fx-font: 24 arial;");
@@ -104,11 +105,14 @@ public class Project3b_seandavies extends Application {
                 }
                 Duration elapsed = Duration.ofNanos(now - startTime);
                 long milliseconds = elapsed.toMillis();
+                drawDominoes(canvas,d1);
+                if (rotateChosen && dominoChosen){
+                    p1.flip(dominoNumber);
+                    rotateChosen = false;
+                }
             }
         };
         animationTimer.start();
-
-        drawDominoes(canvas,d1);
 
         canvas.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
             @Override
@@ -154,34 +158,19 @@ public class Project3b_seandavies extends Application {
                 left++;
             }
         }
-        //Player selected a domino
-        if (dominoChosen) {
+        //Player selected a domino and left or right
+        if (dominoChosen && lOrRightChosen) {
             System.out.println("Player chose to play");
-            if (rotate.matches("y")) {
-                p1.flip(dominoNumber);
-                if (!board1.checkMove(p1.play(dominoNumber), lOrR)) {
-                    System.out.println("Player did not do a valid move!");
-                    p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
-                    board1.falseMove.clear();
-                    System.out.println(p1.playerDominoes);
-                }
-                if (lOrR.matches("l")) {
-                    addToLines(line1, line2, right, left, board1.boardDominoes.getFirst());
-                } else if (lOrR.matches("r")) {
-                    addToLines(line1, line2, right, left, board1.boardDominoes.getLast());
-                }
-            } else if (rotate.matches("n")) {
-                if (!board1.checkMove(p1.play(dominoNumber), lOrR)) {
-                    System.out.println("Player did not do a valid move!!!");
-                    p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
-                    board1.falseMove.clear();
-                    System.out.println(p1.playerDominoes);
-                }
-                if (lOrR.matches("l")) {
-                    addToLines(line1, line2, right, left, board1.boardDominoes.getFirst());
-                } else if (lOrR.matches("r")) {
-                    addToLines(line1, line2, right, left, board1.boardDominoes.getLast());
-                }
+            if (!board1.checkMove(p1.play(dominoNumber), lOrR)) {
+                System.out.println("Player did not do a valid move!");
+                p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
+                board1.falseMove.clear();
+                System.out.println(p1.playerDominoes);
+            }
+            if (lOrR.matches("l")) {
+                addToLines(line1, line2, right, left, board1.boardDominoes.getFirst());
+            } else if (lOrR.matches("r")) {
+                addToLines(line1, line2, right, left, board1.boardDominoes.getLast());
             }
         }
         //Player chose to draw
