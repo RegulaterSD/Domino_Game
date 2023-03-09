@@ -22,15 +22,29 @@ import java.util.LinkedList;
 public class Project3b_seandavies extends Application {
     private int xPosition;
     private int yPosition;
-    static Dominoes d1 = new Dominoes();
+    private static LinkedList<LinkedList> boardStart = new LinkedList<>();
+    private static LinkedList<LinkedList> playerStart = new LinkedList<>();
+    private static LinkedList<LinkedList> computerStart = new LinkedList<>();
+    private static LinkedList<LinkedList> boneyardStart = new LinkedList<>();
+    private static LinkedList<LinkedList> line1 = new LinkedList<>();
+    private static LinkedList<LinkedList> line2 = new LinkedList<>();
+
 
     public static void main(String[] args) {
-
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
+        //To initialize the game
+        DominoManager dm1 = new DominoManager();
+        Dominoes d1 = new Dominoes();
+        dm1.initGame(boardStart,playerStart,computerStart,boneyardStart, d1);
+        Player p1 = new Player(playerStart);
+        Computer c1 = new Computer(computerStart);
+        Boneyard b1 = new Boneyard(boneyardStart);
+        Board board1 = new Board(boardStart);
+
         stage.setTitle("Dominoes");
         Canvas canvas = new Canvas(1500, 250);
         StackPane stackPane = new StackPane();
