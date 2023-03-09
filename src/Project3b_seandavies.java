@@ -75,12 +75,11 @@ public class Project3b_seandavies extends Application {
         flipButton.setStyle("-fx-font: 24 arial;");
         flipButton.setOnAction(EventHandler -> {
             rotateChosen = true;
-            drawDominoes(canvas,p1);
         });
         Button leftButton = new Button("Play Left");
         leftButton.setStyle("-fx-font: 24 arial;");
         leftButton.setOnAction(EventHandler -> {
-            lOrR = "r";
+            lOrR = "l";
             lOrRightChosen = true;
         });
         Button rightButton = new Button("Play Right");
@@ -108,7 +107,9 @@ public class Project3b_seandavies extends Application {
                 long milliseconds = elapsed.toMillis();
                 if (rotateChosen && dominoChosen){
                     p1.flip(dominoNumber);
+                    System.out.println("Flipping Domino");
                     rotateChosen = false;
+                    drawDominoes(canvas,p1);
                 }
             }
         };
