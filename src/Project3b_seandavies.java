@@ -40,6 +40,7 @@ public class Project3b_seandavies extends Application {
     private static boolean rotateChosen = false;
 
     private static int deadMove = 0;
+    private static int computerPosition;
 
 
     public static void main(String[] args) {
@@ -66,9 +67,9 @@ public class Project3b_seandavies extends Application {
         gc.setFill(Color.rgb(255,255,255));
         gc.fillRect(0,0,1500,250);
 
-        Label boneyardLabel = new Label("Boneyard contains " + " dominoes");
+        Label boneyardLabel = new Label("Boneyard contains " + b1.dominoCount() + " dominoes");
         boneyardLabel.setStyle("-fx-font: 24 arial;");
-        Label computerLabel = new Label("Computer has " + " dominoes");
+        Label computerLabel = new Label("Computer has " + c1.dominoCount() + " dominoes");
         computerLabel.setStyle("-fx-font: 24 arial;");
 
         Button flipButton = new Button("Flip Domino");
@@ -105,10 +106,21 @@ public class Project3b_seandavies extends Application {
                 }
                 Duration elapsed = Duration.ofNanos(now - startTime);
                 long milliseconds = elapsed.toMillis();
+                boneyardLabel.setText("Boneyard contains " + b1.dominoCount() + " dominoes");
+                computerLabel.setText("Computer has " + c1.dominoCount() + " dominoes");
                 if (rotateChosen && dominoChosen){
                     p1.flip(dominoNumber);
                     System.out.println("Flipping Domino");
                     rotateChosen = false;
+                    drawDominoes(canvas,p1);
+                }
+                if (dominoChosen && lOrRightChosen){
+                    playerInput(p1,board1,b1);
+                    System.out.println(board1.boardDominoes);
+                    lOrRightChosen = false;
+                    drawDominoes(canvas,p1);
+                    computerMove(c1,board1,b1);
+                    System.out.println("Right: " + right + " Left: " + left);
                     drawDominoes(canvas,p1);
                 }
             }
@@ -150,8 +162,36 @@ public class Project3b_seandavies extends Application {
         stage.show();
     }
 
+    static void computerMove(Computer c1, Board board1, Boneyard b1){
+        computerPosition = c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast());
+        if (computerPosition == -1){
+            if (b1.boneyardDominoes.size() != 0) {
+                System.out.println("Computer drawing from BoneYard");
+                c1.draw(b1.getBoneyard());
+            }
+            else {
+                System.out.println("DeadMove");
+                deadMove++;
+            }
+        }
+        else {
+            if (!board1.checkMove(c1.play(computerPosition), "l")) {
+                c1.computerDominoes.add(computerPosition, board1.falseMove.get(0));
+                board1.falseMove.clear();
+                board1.checkMove(c1.play(computerPosition), "r");
+                computerPosition = -1;
+                deadMove = 0;
+                right++;
+                addToLines(right,left,board1.boardDominoes.getLast());
+            }
+            else {
+                left++;
+                addToLines(right,left,board1.boardDominoes.getFirst());
+            }
+        }
+    }
+
     static void playerInput(Player p1, Board board1, Boneyard b1){
-        Scanner sc = new Scanner(System.in);
         if ((left != 0 || right != 0) && dominoChosen){
             if (lOrR.matches("r")){
                 right++;
@@ -168,11 +208,20 @@ public class Project3b_seandavies extends Application {
                 p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
                 board1.falseMove.clear();
                 System.out.println(p1.playerDominoes);
+                lOrRightChosen = false;
             }
-            if (lOrR.matches("l")) {
-                addToLines(right, left, board1.boardDominoes.getFirst());
-            } else if (lOrR.matches("r")) {
-                addToLines(right, left, board1.boardDominoes.getLast());
+            if (lOrRightChosen) {
+                if (lOrR.matches("l")) {
+                    if ((left != 0 || right != 0)) {
+                        left++;
+                    }
+                    addToLines(right, left, board1.boardDominoes.getFirst());
+                } else if (lOrR.matches("r")) {
+                    if ((left != 0 || right != 0)) {
+                        right++;
+                    }
+                    addToLines(right, left, board1.boardDominoes.getLast());
+                }
             }
         }
         //Player chose to draw
@@ -236,10 +285,10 @@ public class Project3b_seandavies extends Application {
             }
         }
 
-        System.out.println("Top Line: " + topLine);
-        System.out.println("Bottom Line: " + bottomLine);
-        System.out.println("User Line: " + userLine);
-        System.out.println(p1.playerDominoes);
+//        System.out.println("Top Line: " + topLine);
+//        System.out.println("Bottom Line: " + bottomLine);
+//        System.out.println("User Line: " + userLine);
+//        System.out.println(p1.playerDominoes);
 
         Integer dotCount;
 
