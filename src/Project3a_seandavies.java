@@ -2,24 +2,22 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Project3a_seandavies {
-    static LinkedList<LinkedList> boardStart = new LinkedList<>();
-    static LinkedList<LinkedList> playerStart = new LinkedList<>();
-    static LinkedList<LinkedList> computerStart = new LinkedList<>();
-    static LinkedList<LinkedList> boneyardStart = new LinkedList<>();
-    static LinkedList<LinkedList> line1 = new LinkedList<>();
-    static LinkedList<LinkedList> line2 = new LinkedList<>();
-    static boolean playerMoved = false;
-    static boolean computerMoved = true;
-    static int computerPosition;
-    static int deadMove = 0;
-    static String humanChoice;
-    static String lOrR;
-    static String rotate;
-    static int dominoNumber;
-    static boolean gameOver = false;
-    static int left = 0;
-    static int right = 0;
-    static boolean playerForfeit = false;
+    private static LinkedList<LinkedList> boardStart = new LinkedList<>();
+    private static LinkedList<LinkedList> playerStart = new LinkedList<>();
+    private static LinkedList<LinkedList> computerStart = new LinkedList<>();
+    private static LinkedList<LinkedList> boneyardStart = new LinkedList<>();
+    private static LinkedList<LinkedList> line1 = new LinkedList<>();
+    private static LinkedList<LinkedList> line2 = new LinkedList<>();
+    private static int computerPosition;
+    private static int deadMove = 0;
+    private static String humanChoice;
+    private static String lOrR;
+    private static String rotate;
+    private static int dominoNumber;
+    private static boolean gameOver = false;
+    private static int left = 0;
+    private static int right = 0;
+    private static boolean playerForfeit = false;
 
     public static void main(String[] args) {
 
@@ -40,14 +38,13 @@ public class Project3a_seandavies {
         playerInput(p1, board1, b1);
         while (!dm1.isGameOver(gameOver,p1,c1)){
             originalDisplay(c1,b1);
-            System.out.println("Computer Tray: " + c1.computerDominoes);
-            //playerChoices(p1,board1);
-            //playerInput(p1, board1, b1);
-//            if (!humanChoice.matches("q")) {
-//                computerMove(c1, board1, b1);
-//                display(line1, line2);
-//                humanTurnDisplay(p1);
-//            }
+            playerChoices(p1,board1);
+            playerInput(p1, board1, b1);
+            if (!humanChoice.matches("q")) {
+                computerMove(c1, board1, b1);
+                display(line1, line2);
+                humanTurnDisplay(p1);
+            }
             computerMove(c1, board1, b1);
             display(line1, line2);
         }
