@@ -45,6 +45,9 @@ public class Project3b_seandavies extends Application {
 
         Button drawBoneyard = new Button("Draw from boneyard");
         drawBoneyard.setStyle("-fx-font: 24 arial;");
+        drawBoneyard.setOnAction(EventHandler -> {
+
+        });
 
         AnimationTimer animationTimer = new AnimationTimer() {
             private long startTime = -1;
