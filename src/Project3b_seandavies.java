@@ -43,6 +43,9 @@ public class Project3b_seandavies extends Application {
         Label computerLabel = new Label("Computer has " + " dominoes");
         computerLabel.setStyle("-fx-font: 24 arial;");
 
+        Button drawBoneyard = new Button("Draw from boneyard");
+        drawBoneyard.setStyle("-fx-font: 24 arial;");
+
         AnimationTimer animationTimer = new AnimationTimer() {
             private long startTime = -1;
             @Override
@@ -68,11 +71,12 @@ public class Project3b_seandavies extends Application {
 
 
 
-        stage.setScene(new Scene(root,900,310));
+        stage.setScene(new Scene(root,900,350));
         root.getChildren().add(boneyardLabel);
         root.getChildren().add(computerLabel);
         stackPane.getChildren().add(canvas);
         root.getChildren().add(stackPane);
+        root.getChildren().add(drawBoneyard);
         root.setAlignment(Pos.TOP_CENTER);
         stage.show();
 
