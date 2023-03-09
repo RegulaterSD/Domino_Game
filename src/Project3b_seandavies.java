@@ -5,18 +5,23 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.w3c.dom.css.RGBColor;
 
 import java.io.*;
 import java.time.Duration;
 import java.util.LinkedList;
 
 public class Project3b_seandavies extends Application {
+    private int xPosition;
+    private int yPosition;
 
     public static void main(String[] args) {
         launch(args);
@@ -25,9 +30,13 @@ public class Project3b_seandavies extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Dominoes");
-        Canvas canvas = new Canvas(600, 250);
+        Canvas canvas = new Canvas(900, 250);
         StackPane stackPane = new StackPane();
         VBox root = new VBox();
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setFill(Color.rgb(255,255,255));
+        gc.fillRect(0,0,900,250);
 
         Label boneyardLabel = new Label("Boneyard contains " + " dominoes");
         boneyardLabel.setStyle("-fx-font: 24 arial;");
@@ -50,13 +59,16 @@ public class Project3b_seandavies extends Application {
         canvas.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
-
+                xPosition = (int) event.getSceneX();
+                yPosition = (int) event.getSceneY();
+                System.out.println("X Position: " + xPosition);
+                System.out.println("Y Position: " + yPosition);
             }
         });
 
 
 
-        stage.setScene(new Scene(root,600,500));
+        stage.setScene(new Scene(root,900,310));
         root.getChildren().add(boneyardLabel);
         root.getChildren().add(computerLabel);
         stackPane.getChildren().add(canvas);
