@@ -30,22 +30,18 @@ public class Project3a_seandavies {
         Boneyard b1 = new Boneyard(boneyardStart);
         Board board1 = new Board(boardStart);
 
-
-        originalDisplay(c1,b1);
-        display(line1,line2);
-        humanTurnDisplay(p1);
-        playerChoices(p1,board1);
-        playerInput(p1, board1, b1);
         while (!dm1.isGameOver(gameOver,p1,c1)){
             originalDisplay(c1,b1);
+            display(line1,line2);
+            humanTurnDisplay(p1);
             playerChoices(p1,board1);
             playerInput(p1, board1, b1);
+            originalDisplay(c1,b1);
             if (!humanChoice.matches("q")) {
                 computerMove(c1, board1, b1);
                 display(line1, line2);
                 humanTurnDisplay(p1);
             }
-            computerMove(c1, board1, b1);
             display(line1, line2);
         }
         System.out.println(dm1.endGame(p1,c1,b1,playerForfeit));
