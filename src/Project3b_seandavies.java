@@ -23,7 +23,8 @@ import java.util.Scanner;
 public class Project3b_seandavies extends Application {
     private int xPosition;
     private int yPosition;
-    private static String lOrR;
+    private static String lOrR = "";
+    private static String computerLOrR = "";
     private static LinkedList<LinkedList> boardStart = new LinkedList<>();
     private static LinkedList<LinkedList> playerStart = new LinkedList<>();
     private static LinkedList<LinkedList> computerStart = new LinkedList<>();
@@ -118,11 +119,12 @@ public class Project3b_seandavies extends Application {
                     playerInput(p1,board1,b1);
                     System.out.println(board1.boardDominoes);
                     lOrRightChosen = false;
-                    drawDominoes(canvas,p1);
+                    dominoChosen = false;
                     computerMove(c1,board1,b1);
                     System.out.println("Right: " + right + " Left: " + left);
                     drawDominoes(canvas,p1);
                 }
+                drawDominoes(canvas,p1);
             }
         };
         drawDominoes(canvas,p1);
@@ -163,7 +165,9 @@ public class Project3b_seandavies extends Application {
     }
 
     static void computerMove(Computer c1, Board board1, Boneyard b1){
+        System.out.println("Computer Dominoes: " + c1.computerDominoes);
         computerPosition = c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast());
+        System.out.println("Computer moving: " + computerPosition);
         if (computerPosition == -1){
             if (b1.boneyardDominoes.size() != 0) {
                 System.out.println("Computer drawing from BoneYard");
@@ -182,24 +186,26 @@ public class Project3b_seandavies extends Application {
                 computerPosition = -1;
                 deadMove = 0;
                 right++;
-                addToLines(right,left,board1.boardDominoes.getLast());
+                computerLOrR = "r";
+                addToLines(board1.boardDominoes.getLast());
+                System.out.println("Computer Dominoes: " + c1.computerDominoes);
+                System.out.println("Adding Right: " + board1.boardDominoes.getLast());
+                System.out.println("Computer Dominoes: " + c1.computerDominoes);
+                System.out.println("Board: " + board1.boardDominoes);
             }
             else {
                 left++;
-                addToLines(right,left,board1.boardDominoes.getFirst());
+                computerLOrR = "l";
+                addToLines(board1.boardDominoes.getFirst());
+                System.out.println("Computer Dominoes: " + c1.computerDominoes);
+                System.out.println("Adding Left: " + board1.boardDominoes.getFirst());
+                System.out.println("Computer Dominoes: " + c1.computerDominoes);
+                System.out.println("Board: " + board1.boardDominoes);
             }
         }
     }
 
     static void playerInput(Player p1, Board board1, Boneyard b1){
-        if ((left != 0 || right != 0) && dominoChosen){
-            if (lOrR.matches("r")){
-                right++;
-            }
-            else if (lOrR.matches("l")){
-                left++;
-            }
-        }
         //Player selected a domino and left or right
         if (dominoChosen && lOrRightChosen) {
             System.out.println("Player chose to play");
@@ -215,12 +221,12 @@ public class Project3b_seandavies extends Application {
                     if ((left != 0 || right != 0)) {
                         left++;
                     }
-                    addToLines(right, left, board1.boardDominoes.getFirst());
+                    addToLines(board1.boardDominoes.getFirst());
                 } else if (lOrR.matches("r")) {
                     if ((left != 0 || right != 0)) {
                         right++;
                     }
-                    addToLines(right, left, board1.boardDominoes.getLast());
+                    addToLines(board1.boardDominoes.getLast());
                 }
             }
         }
@@ -265,6 +271,17 @@ public class Project3b_seandavies extends Application {
         int boardStart = 50;
         int userDepth = 190;
         int userStart = 50;
+        int line1Indent = 0;
+        int line2Indent = 0;
+
+        if (left%2 == 0) {
+            line1Indent = 0;
+            line2Indent = 50;
+        }
+        else {
+            line1Indent = 50;
+            line2Indent = 0;
+        }
 
         LinkedList<Integer> topLine = new LinkedList<>();
         for (LinkedList l : line1){
@@ -302,10 +319,10 @@ public class Project3b_seandavies extends Application {
         //i variable max needs to change to line1.size/2
         for (Integer i = 0; i < topLine.size()/2; i++){
             gc.setFill(dominoColor);
-            gc.fillRoundRect(boardStart + (dominoWidth * i),boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
+            gc.fillRoundRect(boardStart + (dominoWidth * i) + line1Indent,boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
             gc.setFill(lineColor);
-            gc.fillRect(boardStart + (dominoWidth * i) + lineStart,boardOne,lineWidth,dominoHeight);
-            gc.strokeRoundRect(boardStart + (dominoWidth * i),boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
+            gc.fillRect(boardStart + (dominoWidth * i) + lineStart + line1Indent,boardOne,lineWidth,dominoHeight);
+            gc.strokeRoundRect(boardStart + (dominoWidth * i) + line1Indent,boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
         }
         //i variable max needs to change to line1.size
         for (Integer i = 0; i < topLine.size(); i++){
@@ -315,37 +332,37 @@ public class Project3b_seandavies extends Application {
                 case 0 -> {
                 }
                 case 1 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 20),boardOne + 20,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 20 + line1Indent),boardOne + 20,dotRadius,dotRadius);
                 }
                 case 2 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 5,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5 + line1Indent),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35 + line1Indent),boardOne + 35,dotRadius,dotRadius);
                 }
                 case 3 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 5,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 20),boardOne + 20,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5 + line1Indent),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 20 + line1Indent),boardOne + 20,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35 + line1Indent),boardOne + 35,dotRadius,dotRadius);
                 }
                 case 4 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 5,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 5,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 35,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5 + line1Indent),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35 + line1Indent),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5 + line1Indent),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35 + line1Indent),boardOne + 35,dotRadius,dotRadius);
                 }
                 case 5 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 5,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 20),boardOne + 20,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 35,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 5,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5 + line1Indent),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 20 + line1Indent),boardOne + 20,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35 + line1Indent),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35 + line1Indent),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5 + line1Indent),boardOne + 35,dotRadius,dotRadius);
                 }
                 case 6 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 5,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 20,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5),boardOne + 35,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 5,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 20,dotRadius,dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5 + line1Indent),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5 + line1Indent),boardOne + 20,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5 + line1Indent),boardOne + 35,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35 + line1Indent),boardOne + 5,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35 + line1Indent),boardOne + 20,dotRadius,dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35 + line1Indent),boardOne + 35,dotRadius,dotRadius);
                 }
                 default -> {
 
@@ -356,10 +373,10 @@ public class Project3b_seandavies extends Application {
         //i variable max needs to change to line2.size/2
         for (Integer i = 0; i < bottomLine.size()/2; i++){
             gc.setFill(dominoColor);
-            gc.fillRoundRect(boardStart + (dominoWidth * i),boardTwo,dominoWidth,dominoHeight,dotRadius,dotRadius);
+            gc.fillRoundRect(boardStart + (dominoWidth * i) + line2Indent,boardTwo,dominoWidth,dominoHeight,dotRadius,dotRadius);
             gc.setFill(lineColor);
-            gc.fillRect(boardStart + (dominoWidth * i) + lineStart,boardTwo,lineWidth,dominoHeight);
-            gc.strokeRoundRect(boardStart + (dominoWidth * i),boardTwo,dominoWidth,dominoHeight,dotRadius,dotRadius);
+            gc.fillRect(boardStart + (dominoWidth * i) + lineStart + line2Indent,boardTwo,lineWidth,dominoHeight);
+            gc.strokeRoundRect(boardStart + (dominoWidth * i) + line2Indent,boardTwo,dominoWidth,dominoHeight,dotRadius,dotRadius);
         }
         for (Integer i = 0; i < bottomLine.size(); i++) {
             dotCount = bottomLine.get(i);
@@ -368,37 +385,37 @@ public class Project3b_seandavies extends Application {
                 case 0 -> {
                 }
                 case 1 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 20), boardTwo + 20, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 20 + line2Indent), boardTwo + 20, dotRadius, dotRadius);
                 }
                 case 2 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5), boardTwo + 5, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35), boardTwo + 35, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5) + line2Indent, boardTwo + 5, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35) + line2Indent, boardTwo + 35, dotRadius, dotRadius);
                 }
                 case 3 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5), boardTwo + 5, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 20), boardTwo + 20, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35), boardTwo + 35, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5) + line2Indent, boardTwo + 5, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 20) + line2Indent, boardTwo + 20, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35) + line2Indent, boardTwo + 35, dotRadius, dotRadius);
                 }
                 case 4 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5), boardTwo + 5, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35), boardTwo + 5, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5), boardTwo + 35, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35), boardTwo + 35, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5) + line2Indent, boardTwo + 5, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35) + line2Indent, boardTwo + 5, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5) + line2Indent, boardTwo + 35, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35) + line2Indent, boardTwo + 35, dotRadius, dotRadius);
                 }
                 case 5 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5), boardTwo + 5, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 20), boardTwo + 20, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35), boardTwo + 35, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35), boardTwo + 5, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5), boardTwo + 35, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5) + line2Indent, boardTwo + 5, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 20) + line2Indent, boardTwo + 20, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35) + line2Indent, boardTwo + 35, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35) + line2Indent, boardTwo + 5, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5) + line2Indent, boardTwo + 35, dotRadius, dotRadius);
                 }
                 case 6 -> {
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5), boardTwo + 5, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5), boardTwo + 20, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 5), boardTwo + 35, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35), boardTwo + 5, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35), boardTwo + 20, dotRadius, dotRadius);
-                    gc.fillOval((boardStart + (dominoHalf * i) + 35), boardTwo + 35, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5) + line2Indent, boardTwo + 5, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5) + line2Indent, boardTwo + 20, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 5) + line2Indent, boardTwo + 35, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35) + line2Indent, boardTwo + 5, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35) + line2Indent, boardTwo + 20, dotRadius, dotRadius);
+                    gc.fillOval((boardStart + (dominoHalf * i) + 35) + line2Indent, boardTwo + 35, dotRadius, dotRadius);
                 }
                 default -> {
 
@@ -461,23 +478,31 @@ public class Project3b_seandavies extends Application {
 
     }
 
-    static void addToLines(int right, int left, LinkedList domino){
-        if (right%2 != 0 && lOrR.matches("r")){
+    static void addToLines(LinkedList domino){
+        System.out.println("Right: " + right + " Left: " + left);
+        System.out.println("Adding: " + domino);
+        if (right%2 != 0 && (lOrR.matches("r") || computerLOrR.matches("r"))){
             line2.addLast(domino);
             lOrR = "";
+            computerLOrR = "";
         }
-        else if (right%2 == 0 && lOrR.matches("r")){
+        else if (right%2 == 0 && (lOrR.matches("r") || computerLOrR.matches("r"))){
             line1.addLast(domino);
             lOrR = "";
+            computerLOrR = "";
         }
-        else if (left%2 != 0 && lOrR.matches("l")){
+        else if (left%2 != 0 && (lOrR.matches("l") || computerLOrR.matches("l"))){
             line2.addFirst(domino);
             lOrR = "";
+            computerLOrR = "";
         }
-        else if (left%2 == 0 && lOrR.matches("l")){
+        else if (left%2 == 0 && (lOrR.matches("l") || computerLOrR.matches("l"))){
             line1.addFirst(domino);
             lOrR = "";
+            computerLOrR = "";
         }
+        System.out.println("Line1: " + line1);
+        System.out.println("Line2: " + line2);
     }
 
 
