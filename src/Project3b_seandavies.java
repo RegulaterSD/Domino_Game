@@ -296,4 +296,21 @@ public class Project3b_seandavies extends Application {
 
 
     }
+
+    static void addToLines(LinkedList line1, LinkedList line2, int right, int left, LinkedList domino, char lOrR){
+        if (right%2 != 0 && lOrR == 'r'){
+            line2.addLast(domino);
+        }
+        else if (right%2 == 0 && lOrR == 'r'){
+            line1.addLast(domino);
+        }
+        else if (left%2 != 0 && lOrR == 'l'){
+            line2.addFirst(domino);
+        }
+        else if (left%2 == 0 && lOrR == 'l'){
+            line1.addFirst(domino);
+        }
+    }
+
+
 }
