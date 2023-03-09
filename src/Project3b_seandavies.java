@@ -55,9 +55,10 @@ public class Project3b_seandavies extends Application {
                 }
                 Duration elapsed = Duration.ofNanos(now - startTime);
                 long milliseconds = elapsed.toMillis();
-
+                drawDominoes(canvas);
             }
         };
+        animationTimer.start();
 
         canvas.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
             @Override
@@ -79,6 +80,21 @@ public class Project3b_seandavies extends Application {
         root.getChildren().add(drawBoneyard);
         root.setAlignment(Pos.TOP_CENTER);
         stage.show();
+    }
+
+    //LinkedList board, LinkedList playerDominoes
+    static void drawDominoes(Canvas canvas){
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        Color dominoColor = Color.rgb(222,185,101);
+        Color dotColor = Color.rgb(0,0,255);
+        Color lineColor = Color.rgb(0,0,0);
+        gc.setFill(dominoColor);
+        gc.fillRoundRect(450,100,100,50,10,10);
+        gc.setFill(dotColor);
+        gc.fillOval(470,120,10,10);
+        gc.setFill(lineColor);
+        gc.fillRect(498,100,4,50);
+
 
     }
 }
