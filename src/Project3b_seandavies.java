@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.w3c.dom.css.RGBColor;
 
@@ -42,6 +43,7 @@ public class Project3b_seandavies extends Application {
 
     private static int deadMove = 0;
     private static int computerPosition;
+    private static boolean didDraw = false;
 
 
     public static void main(String[] args) {
@@ -95,6 +97,10 @@ public class Project3b_seandavies extends Application {
         drawBoneyard.setOnAction(EventHandler -> {
             drawing = true;
             playerInput(p1,board1,b1);
+            if (didDraw) {
+                computerMove(c1, board1, b1);
+                didDraw = false;
+            }
         });
 
 
@@ -109,22 +115,36 @@ public class Project3b_seandavies extends Application {
                 long milliseconds = elapsed.toMillis();
                 boneyardLabel.setText("Boneyard contains " + b1.dominoCount() + " dominoes");
                 computerLabel.setText("Computer has " + c1.dominoCount() + " dominoes");
-                if (rotateChosen && dominoChosen){
-                    p1.flip(dominoNumber);
-                    System.out.println("Flipping Domino");
-                    rotateChosen = false;
-                    drawDominoes(canvas,p1);
+                if (deadMove == 2){
+                    gameOver = true;
                 }
-                if (dominoChosen && lOrRightChosen){
-                    playerInput(p1,board1,b1);
-                    System.out.println(board1.boardDominoes);
-                    lOrRightChosen = false;
-                    dominoChosen = false;
-                    computerMove(c1,board1,b1);
-                    System.out.println("Right: " + right + " Left: " + left);
-                    drawDominoes(canvas,p1);
+                if (dm1.isGameOver(gameOver,p1,c1)){
+                    gc.setFill(Color.rgb(255,255,255));
+                    gc.fillRect(0,0,1500,250);
+                    gc.setStroke(Color.rgb(0,0,0));
+                    gc.setFont(Font.font(36));
+                    gc.setFill(Color.rgb(0,0,0));
+                    gc.fillText(dm1.endGame(p1,c1,b1,false),50,100);
+                    super.stop();
                 }
-                drawDominoes(canvas,p1);
+                else {
+                    if (rotateChosen && dominoChosen) {
+                        p1.flip(dominoNumber);
+                        System.out.println("Flipping Domino");
+                        rotateChosen = false;
+                        drawDominoes(canvas, p1);
+                    }
+                    if (dominoChosen && lOrRightChosen) {
+                        playerInput(p1, board1, b1);
+                        System.out.println(board1.boardDominoes);
+                        lOrRightChosen = false;
+                        dominoChosen = false;
+                        computerMove(c1, board1, b1);
+                        System.out.println("Right: " + right + " Left: " + left);
+                        drawDominoes(canvas, p1);
+                    }
+                    drawDominoes(canvas, p1);
+                }
             }
         };
         drawDominoes(canvas,p1);
@@ -239,10 +259,12 @@ public class Project3b_seandavies extends Application {
                         System.out.println("Drawing from BoneYard");
                         p1.draw(b1.getBoneyard());
                         drawing = false;
+                        didDraw = true;
                     } else {
                         System.out.println("DeadMove");
                         deadMove++;
                         drawing = false;
+                        didDraw = true;
                     }
                 } else {
                     while (drawing) {
