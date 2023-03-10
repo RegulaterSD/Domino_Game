@@ -170,6 +170,13 @@ public class Project3b_seandavies extends Application {
         stage.show();
     }
 
+    /**
+     * This is to make the computer move. It checks for all valid moves, and will perform
+     * the move if it finds a valid move. If no valid move it draws, or does a dead draw.
+     * @param c1 This is the Computer Object
+     * @param board1 This is the Board Object
+     * @param b1 This is the Boneyard Object
+     */
     static void computerMove(Computer c1, Board board1, Boneyard b1){
         computerPosition = c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast());
         if (computerPosition == -1){
@@ -199,6 +206,14 @@ public class Project3b_seandavies extends Application {
         }
     }
 
+    /**
+     * This is to take the Player Input and make the move that the player chose. Checks
+     * if it is valid, or if there is a valid move and makes the player perform
+     * the valid move or keep trying until they do.
+     * @param p1 Player Object
+     * @param board1 Board Object
+     * @param b1 Boneyard Object
+     */
     static void playerInput(Player p1, Board board1, Boneyard b1){
         //Player selected a domino and left or right
         if (dominoChosen && lOrRightChosen) {
@@ -245,6 +260,12 @@ public class Project3b_seandavies extends Application {
         }
     }
 
+    /**
+     * This is where I draw the dominoes on the canvas. It draws both lines
+     * and the users dominoes through loops.
+     * @param canvas This is the canvas being drawn to
+     * @param p1 This is the Player held dominoes
+     */
     static void drawDominoes(Canvas canvas, Player p1){
         int dominoWidth = 100;
         int dominoHalf = dominoWidth/2;
@@ -528,6 +549,11 @@ public class Project3b_seandavies extends Application {
 
     }
 
+    /**
+     * This is where I add the dominoes to specific lines for drawing to the
+     * command line.
+     * @param domino This is the domino being added
+     */
     static void addToLines(LinkedList domino){
         if (right%2 != 0 && (lOrR.matches("r") || computerLOrR.matches("r"))){
             line2.addLast(domino);

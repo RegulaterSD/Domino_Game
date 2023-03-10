@@ -19,6 +19,11 @@ public class Project3a_seandavies {
     private static int right = 0;
     private static boolean playerForfeit = false;
 
+    /**
+     * This is where the main logic of the game is. Updating the board
+     * Building the objects.
+     * @param args
+     */
     public static void main(String[] args) {
 
         //To initialize the game
@@ -48,6 +53,13 @@ public class Project3a_seandavies {
     }
 
 
+    /**
+     * This is to make the computer move. It checks for all valid moves, and will perform
+     * the move if it finds a valid move. If no valid move it draws, or does a dead draw.
+     * @param c1 This is the Computer Object
+     * @param board1 This is the Board Object
+     * @param b1 This is the Boneyard Object
+     */
     static void computerMove(Computer c1, Board board1, Boneyard b1){
         computerPosition = c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast());
         if (computerPosition == -1){
@@ -77,6 +89,11 @@ public class Project3a_seandavies {
         }
     }
 
+    /**
+     * This is to receive in the Player Choices through the command line
+     * @param p1 This is the Player Object
+     * @param board1 This is the Board Object
+     */
     static void playerChoices(Player p1, Board board1){
         Scanner sc = new Scanner(System.in);
         humanChoice = sc.nextLine();
@@ -111,6 +128,14 @@ public class Project3a_seandavies {
         }
     }
 
+    /**
+     * This is to take the Player Input and make the move that the player chose. Checks
+     * if it is valid, or if there is a valid move and makes the player perform
+     * the valid move or keep trying until they do.
+     * @param p1 Player Object
+     * @param board1 Board Object
+     * @param b1 Boneyard Object
+     */
     static void playerInput(Player p1, Board board1, Boneyard b1){
         Scanner sc = new Scanner(System.in);
         if ((left != 0 || right != 0) && humanChoice.matches("p")){
@@ -189,6 +214,16 @@ public class Project3a_seandavies {
         }
     }
 
+    /**
+     * This is where I add the dominoes to specific lines for drawing to the
+     * command line.
+     * @param line1 This is the top line of the dominoes to be displayed
+     * @param line2 This is the bottom line of the dominoes to be displayed
+     * @param right This is the right count
+     * @param left This is the left count
+     * @param domino This is the domino being added
+     * @param lOrR This is if the user moved left or right
+     */
     static void addToLines(LinkedList line1, LinkedList line2, int right,
                            int left, LinkedList domino, char lOrR){
         if (right%2 != 0 && lOrR == 'r'){
@@ -205,6 +240,11 @@ public class Project3a_seandavies {
         }
     }
 
+    /**
+     * This is to display the board lines to the command line
+     * @param line1 This is the top line
+     * @param line2 This is the bottom line
+     */
     static void display(LinkedList line1, LinkedList line2){
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
@@ -229,6 +269,10 @@ public class Project3a_seandavies {
         }
     }
 
+    /**
+     * This is to display the basic information before the players turn
+     * @param p1 This is the Player Object
+     */
     static void humanTurnDisplay(Player p1){
         System.out.println("Tray: " + p1.playerDominoes);
         System.out.println("Human’s turn");
@@ -237,6 +281,11 @@ public class Project3a_seandavies {
         System.out.println("[q] Quit");
     }
 
+    /**
+     * This is the display the Boneyard and Computer domino counts
+     * @param c1 Computer Object
+     * @param b1 Boneyard Object
+     */
     static void originalDisplay(Computer c1, Boneyard b1){
         System.out.println("Computer has "+ c1.dominoCount() + " dominoes");
         System.out.println("Boneyard contains " + b1.boneyardDominoes.size() + " dominoes");
