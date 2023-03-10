@@ -112,7 +112,6 @@ public class Project3b_seandavies extends Application {
                     startTime = now;
                 }
                 Duration elapsed = Duration.ofNanos(now - startTime);
-                long milliseconds = elapsed.toMillis();
                 boneyardLabel.setText("Boneyard contains " + b1.dominoCount() + " dominoes");
                 computerLabel.setText("Computer has " + c1.dominoCount() + " dominoes");
                 if (deadMove == 2){
@@ -130,17 +129,14 @@ public class Project3b_seandavies extends Application {
                 else {
                     if (rotateChosen && dominoChosen) {
                         p1.flip(dominoNumber);
-                        System.out.println("Flipping Domino");
                         rotateChosen = false;
                         drawDominoes(canvas, p1);
                     }
                     if (dominoChosen && lOrRightChosen) {
                         playerInput(p1, board1, b1);
-                        System.out.println(board1.boardDominoes);
                         lOrRightChosen = false;
                         dominoChosen = false;
                         computerMove(c1, board1, b1);
-                        System.out.println("Right: " + right + " Left: " + left);
                         drawDominoes(canvas, p1);
                     }
                     drawDominoes(canvas, p1);
@@ -155,12 +151,8 @@ public class Project3b_seandavies extends Application {
             public void handle(MouseEvent event) {
                 xPosition = (int) event.getSceneX();
                 yPosition = (int) event.getSceneY();
-                System.out.println("X Position: " + xPosition);
-                System.out.println("Y Position: " + yPosition);
                 if (yPosition >= 190 && xPosition >= 50 && xPosition <= (((p1.dominoCount()) * 100)+50)){
-                    System.out.println("User clicked a domino");
                     dominoNumber = (xPosition - 50)/100;
-                    System.out.println("Domino Clicked: " + dominoNumber);
                     dominoChosen = true;
                 }
             }
@@ -185,16 +177,12 @@ public class Project3b_seandavies extends Application {
     }
 
     static void computerMove(Computer c1, Board board1, Boneyard b1){
-        System.out.println("Computer Dominoes: " + c1.computerDominoes);
         computerPosition = c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast());
-        System.out.println("Computer moving: " + computerPosition);
         if (computerPosition == -1){
             if (b1.boneyardDominoes.size() != 0) {
-                System.out.println("Computer drawing from BoneYard");
                 c1.draw(b1.getBoneyard());
             }
             else {
-                System.out.println("DeadMove");
                 deadMove++;
             }
         }
@@ -208,19 +196,11 @@ public class Project3b_seandavies extends Application {
                 right++;
                 computerLOrR = "r";
                 addToLines(board1.boardDominoes.getLast());
-                System.out.println("Computer Dominoes: " + c1.computerDominoes);
-                System.out.println("Adding Right: " + board1.boardDominoes.getLast());
-                System.out.println("Computer Dominoes: " + c1.computerDominoes);
-                System.out.println("Board: " + board1.boardDominoes);
             }
             else {
                 left++;
                 computerLOrR = "l";
                 addToLines(board1.boardDominoes.getFirst());
-                System.out.println("Computer Dominoes: " + c1.computerDominoes);
-                System.out.println("Adding Left: " + board1.boardDominoes.getFirst());
-                System.out.println("Computer Dominoes: " + c1.computerDominoes);
-                System.out.println("Board: " + board1.boardDominoes);
             }
         }
     }
@@ -228,12 +208,9 @@ public class Project3b_seandavies extends Application {
     static void playerInput(Player p1, Board board1, Boneyard b1){
         //Player selected a domino and left or right
         if (dominoChosen && lOrRightChosen) {
-            System.out.println("Player chose to play");
             if (!board1.checkMove(p1.play(dominoNumber), lOrR)) {
-                System.out.println("Player did not do a valid move!");
                 p1.playerDominoes.add(dominoNumber, board1.falseMove.get(0));
                 board1.falseMove.clear();
-                System.out.println(p1.playerDominoes);
                 lOrRightChosen = false;
             }
             if (lOrRightChosen) {
@@ -252,35 +229,28 @@ public class Project3b_seandavies extends Application {
         }
         //Player chose to draw
         if (drawing) {
-            System.out.println("Player chose to draw from boneyard");
             if (board1.boardDominoes.size() != 0) {
                 if (!p1.playerMove(board1.boardDominoes.getFirst(), board1.boardDominoes.getLast())) {
                     if (b1.boneyardDominoes.size() != 0) {
-                        System.out.println("Drawing from BoneYard");
                         p1.draw(b1.getBoneyard());
                         drawing = false;
                         didDraw = true;
                     } else {
-                        System.out.println("DeadMove");
                         deadMove++;
                         drawing = false;
                         didDraw = true;
                     }
                 } else {
                     while (drawing) {
-                        System.out.println("Cannot draw you have a valid move possible");
                         drawing = false;
                     }
                 }
             } else {
-                System.out.println("Cannot draw, you have a valid move possible");
                 drawing = false;
             }
         }
     }
 
-    //LinkedList line1, LinkedList line2, LinkedList playerDominoes
-    //Need to add indent
     static void drawDominoes(Canvas canvas, Player p1){
         int dominoWidth = 100;
         int dominoHalf = dominoWidth/2;
@@ -324,11 +294,6 @@ public class Project3b_seandavies extends Application {
             }
         }
 
-//        System.out.println("Top Line: " + topLine);
-//        System.out.println("Bottom Line: " + bottomLine);
-//        System.out.println("User Line: " + userLine);
-//        System.out.println(p1.playerDominoes);
-
         Integer dotCount;
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -338,7 +303,6 @@ public class Project3b_seandavies extends Application {
         Color dotColor = Color.rgb(0,0,255);
         Color lineColor = Color.rgb(0,0,0);
 
-        //i variable max needs to change to line1.size/2
         for (Integer i = 0; i < topLine.size()/2; i++){
             gc.setFill(dominoColor);
             gc.fillRoundRect(boardStart + (dominoWidth * i) + line1Indent,boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
@@ -346,7 +310,6 @@ public class Project3b_seandavies extends Application {
             gc.fillRect(boardStart + (dominoWidth * i) + lineStart + line1Indent,boardOne,lineWidth,dominoHeight);
             gc.strokeRoundRect(boardStart + (dominoWidth * i) + line1Indent,boardOne,dominoWidth,dominoHeight,dotRadius,dotRadius);
         }
-        //i variable max needs to change to line1.size
         for (Integer i = 0; i < topLine.size(); i++){
             dotCount = topLine.get(i);
             gc.setFill(dotColor);
@@ -392,7 +355,6 @@ public class Project3b_seandavies extends Application {
             }
         }
 
-        //i variable max needs to change to line2.size/2
         for (Integer i = 0; i < bottomLine.size()/2; i++){
             gc.setFill(dominoColor);
             gc.fillRoundRect(boardStart + (dominoWidth * i) + line2Indent,boardTwo,dominoWidth,dominoHeight,dotRadius,dotRadius);
@@ -444,7 +406,7 @@ public class Project3b_seandavies extends Application {
                 }
             }
         }
-        //Drawing User Dominoes
+
         for (Integer i = 0; i < userLine.size()/2; i++){
             gc.setFill(dominoColor);
             gc.fillRoundRect(userStart + (dominoWidth * i),userDepth,dominoWidth,dominoHeight,dotRadius,dotRadius);
@@ -501,8 +463,6 @@ public class Project3b_seandavies extends Application {
     }
 
     static void addToLines(LinkedList domino){
-        System.out.println("Right: " + right + " Left: " + left);
-        System.out.println("Adding: " + domino);
         if (right%2 != 0 && (lOrR.matches("r") || computerLOrR.matches("r"))){
             line2.addLast(domino);
             lOrR = "";
@@ -523,9 +483,6 @@ public class Project3b_seandavies extends Application {
             lOrR = "";
             computerLOrR = "";
         }
-        System.out.println("Line1: " + line1);
-        System.out.println("Line2: " + line2);
     }
-
 
 }
