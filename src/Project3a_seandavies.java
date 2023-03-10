@@ -100,7 +100,8 @@ public class Project3a_seandavies {
                 rotate = sc.nextLine();
             }
         }
-        else if (!humanChoice.matches("p") && !humanChoice.matches("q") && !humanChoice.matches("d")){
+        else if (!humanChoice.matches("p") && !humanChoice.matches("q")
+                && !humanChoice.matches("d")){
             System.out.println("Please enter a valid  (p/d/q)");
             playerChoices(p1,board1);
         }
@@ -188,7 +189,8 @@ public class Project3a_seandavies {
         }
     }
 
-    static void addToLines(LinkedList line1, LinkedList line2, int right, int left, LinkedList domino, char lOrR){
+    static void addToLines(LinkedList line1, LinkedList line2, int right,
+                           int left, LinkedList domino, char lOrR){
         if (right%2 != 0 && lOrR == 'r'){
             line2.addLast(domino);
         }
