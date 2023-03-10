@@ -4,11 +4,21 @@ public class Board {
     protected LinkedList<LinkedList> boardDominoes = new LinkedList<>();
     protected LinkedList<LinkedList> falseMove = new LinkedList<>();
     protected boolean topLast = false;
+
+    /**
+     * This is the main board constructor
+     * @param dominoes Takes in the dominoes being assigned to the board.
+     */
     Board(LinkedList dominoes){
         this.boardDominoes = (LinkedList<LinkedList>) dominoes.clone();
         this.falseMove = (LinkedList<LinkedList>) dominoes.clone();
     }
 
+    /**
+     * This is to add to the board linked list
+     * @param domino The domino being added
+     * @param leftOrRight Which direction the player played it
+     */
     void add(LinkedList domino, String leftOrRight){
         if (leftOrRight.matches("l") || leftOrRight.matches("L")){
             this.boardDominoes.addFirst(domino);
@@ -18,6 +28,12 @@ public class Board {
         }
     }
 
+    /**
+     * This is to check if the move is valid on the board
+     * @param domino The domino being played
+     * @param leftOrRight The direction being played
+     * @return True if valid, false if otherwise
+     */
     boolean checkMove(LinkedList domino, String leftOrRight){
         if (leftOrRight.matches("l") || leftOrRight.matches("L")){
             if (total() == 0){
@@ -60,10 +76,17 @@ public class Board {
         }
     }
 
+    /**
+     * Returns the total dominoes on the board
+     * @return Total dominoes on the board in int form
+     */
     int total(){
         return (this.boardDominoes.size());
     }
 
+    /**
+     * This is to clear the board.
+     */
     void clear(){
         this.boardDominoes.clear();
     }

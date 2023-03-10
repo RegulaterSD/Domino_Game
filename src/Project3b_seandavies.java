@@ -1,3 +1,10 @@
+/**
+ * Sean Davies
+ * CS351L
+ * Project 3 Part B
+ * Dominoes with GUI
+ */
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;

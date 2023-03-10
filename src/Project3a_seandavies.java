@@ -1,3 +1,10 @@
+/**
+ * Sean Davies
+ * CS351L
+ * Project 3 Part A
+ * Dominoes through command line
+ */
+
 import java.util.LinkedList;
 import java.util.Scanner;
 
