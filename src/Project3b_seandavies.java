@@ -184,7 +184,7 @@ public class Project3b_seandavies extends Application {
      * @param board1 This is the Board Object
      * @param b1 This is the Boneyard Object
      */
-    static void computerMove(Computer c1, Board board1, Boneyard b1){
+    private static void computerMove(Computer c1, Board board1, Boneyard b1){
         computerPosition = c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast());
         if (computerPosition == -1){
             if (b1.boneyardDominoes.size() != 0) {
@@ -221,7 +221,7 @@ public class Project3b_seandavies extends Application {
      * @param board1 Board Object
      * @param b1 Boneyard Object
      */
-    static void playerInput(Player p1, Board board1, Boneyard b1){
+    private static void playerInput(Player p1, Board board1, Boneyard b1){
         //Player selected a domino and left or right
         if (dominoChosen && lOrRightChosen) {
             if (!board1.checkMove(p1.play(dominoNumber), lOrR)) {
@@ -273,7 +273,7 @@ public class Project3b_seandavies extends Application {
      * @param canvas This is the canvas being drawn to
      * @param p1 This is the Player held dominoes
      */
-    static void drawDominoes(Canvas canvas, Player p1){
+    private static void drawDominoes(Canvas canvas, Player p1){
         int dominoWidth = 100;
         int dominoHalf = dominoWidth/2;
         int dominoHeight = dominoWidth/2;
@@ -561,7 +561,7 @@ public class Project3b_seandavies extends Application {
      * command line.
      * @param domino This is the domino being added
      */
-    static void addToLines(LinkedList domino){
+    private static void addToLines(LinkedList domino){
         if (right%2 != 0 && (lOrR.matches("r") || computerLOrR.matches("r"))){
             line2.addLast(domino);
             lOrR = "";

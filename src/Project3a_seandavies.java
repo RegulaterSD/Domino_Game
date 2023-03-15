@@ -67,7 +67,7 @@ public class Project3a_seandavies {
      * @param board1 This is the Board Object
      * @param b1 This is the Boneyard Object
      */
-    static void computerMove(Computer c1, Board board1, Boneyard b1){
+    private static void computerMove(Computer c1, Board board1, Boneyard b1){
         computerPosition = c1.computerMove(board1.boardDominoes.getFirst(),board1.boardDominoes.getLast());
         if (computerPosition == -1){
             if (b1.boneyardDominoes.size() != 0) {
@@ -101,7 +101,7 @@ public class Project3a_seandavies {
      * @param p1 This is the Player Object
      * @param board1 This is the Board Object
      */
-    static void playerChoices(Player p1, Board board1){
+    private static void playerChoices(Player p1, Board board1){
         Scanner sc = new Scanner(System.in);
         humanChoice = sc.nextLine();
         if (humanChoice.matches("p")) {
@@ -143,7 +143,7 @@ public class Project3a_seandavies {
      * @param board1 Board Object
      * @param b1 Boneyard Object
      */
-    static void playerInput(Player p1, Board board1, Boneyard b1){
+    private static void playerInput(Player p1, Board board1, Boneyard b1){
         Scanner sc = new Scanner(System.in);
         if ((left != 0 || right != 0) && humanChoice.matches("p")){
             if (lOrR.matches("r")){
@@ -231,7 +231,7 @@ public class Project3a_seandavies {
      * @param domino This is the domino being added
      * @param lOrR This is if the user moved left or right
      */
-    static void addToLines(LinkedList line1, LinkedList line2, int right,
+    private static void addToLines(LinkedList line1, LinkedList line2, int right,
                            int left, LinkedList domino, char lOrR){
         if (right%2 != 0 && lOrR == 'r'){
             line2.addLast(domino);
@@ -252,7 +252,7 @@ public class Project3a_seandavies {
      * @param line1 This is the top line
      * @param line2 This is the bottom line
      */
-    static void display(LinkedList line1, LinkedList line2){
+    private static void display(LinkedList line1, LinkedList line2){
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         for (Object object : line1)
@@ -280,7 +280,7 @@ public class Project3a_seandavies {
      * This is to display the basic information before the players turn
      * @param p1 This is the Player Object
      */
-    static void humanTurnDisplay(Player p1){
+    private static void humanTurnDisplay(Player p1){
         System.out.println("Tray: " + p1.playerDominoes);
         System.out.println("Human’s turn");
         System.out.println("[p] Play Domino");
@@ -293,7 +293,7 @@ public class Project3a_seandavies {
      * @param c1 Computer Object
      * @param b1 Boneyard Object
      */
-    static void originalDisplay(Computer c1, Boneyard b1){
+    private static void originalDisplay(Computer c1, Boneyard b1){
         System.out.println("Computer has "+ c1.dominoCount() + " dominoes");
         System.out.println("Boneyard contains " + b1.boneyardDominoes.size() + " dominoes");
     }

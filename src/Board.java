@@ -3,7 +3,6 @@ import java.util.LinkedList;
 public class Board {
     protected LinkedList<LinkedList> boardDominoes = new LinkedList<>();
     protected LinkedList<LinkedList> falseMove = new LinkedList<>();
-    protected boolean topLast = false;
 
     /**
      * This is the main board constructor
